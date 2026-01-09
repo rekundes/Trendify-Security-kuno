@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign In – Trendify</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background: #fff;
+        }
+
+        /* ---------------- NAVIGATION BAR ---------------- */
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 9999;
+            background: #fff;
+            width: 100%;
+            padding: 14px 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-bottom: 1px solid #e7e7e7;
+        }
+
+        /* GRID: LEFT NAV | LOGO | RIGHT NAV */
+        .nav-container {
+            width: 100%;
+            max-width: 1400px;
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            align-items: center;
+        }
+
+        /* LEFT NAV */
+        .main-nav {
+            display: flex;
+            align-items: center;
+            gap: 35px;
+        }
+
+        .main-nav label,
+        .main-nav a {
+            font-size: 18px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            text-decoration: none;
+            color: #000;
+            cursor: pointer;
+        }
+
+        /* CENTER LOGO */
+        .logo {
+            width: 70px;
+            display: block;
+            margin: 0 auto;
+        }
+
+        /* RIGHT NAV */
+        .nav-right {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 22px;
+        }
+
+        .nav-right i {
+            font-size: 22px;
+            color: #000;
+            cursor: pointer;
+        }
+
+        /* ---------------- CLICK DROPDOWN ---------------- */
+        .dropdown {
+            position: relative;
+        }
+
+        .toggle {
+            display: none;
+        }
+
+        .toggle:checked + label + .dropdown-area {
+            display: flex;
+        }
+
+        .dropdown-area {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 260px;
+            background: #fff;
+            border-right: 1px solid #ddd;
+            padding: 25px 20px;
+            padding-right: 35px;
+            display: none;
+            flex-direction: column;
+            gap: 22px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+        }
+
+        /* ---------------- SUBMENU (hover only) ---------------- */
+        .section {
+            position: relative;
+        }
+
+        .section label {
+            font-size: 15px;
+            font-weight: bold;
+            text-transform: uppercase;
+            cursor: pointer;
+        }
+
+        .sub-menu {
+            display: none;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 8px;
+            padding-left: 12px;
+            border-left: 2px solid #000;
+        }
+
+        .section:hover .sub-menu {
+            display: flex;
+        }
+
+        .sub-menu a {
+            font-size: 14px;
+            font-weight: bold;
+            text-transform: uppercase;
+            color: #000;
+            text-decoration: none;
+        }
+
+        .sub-menu a:hover {
+            opacity: 0.7;
+        }
+
+        /* ---------------- SIGN IN PAGE ---------------- */
+        .center-box {
+            width: 100%;
+            max-width: 420px;
+            margin: 60px auto;
+            text-align: center;
+        }
+
+        .small-logo {
+            width: 200px;
+            margin-bottom: 20px;
+        }
+
+        .signin-heading {
+            font-size: 26px;
+            margin-bottom: 25px;
+            letter-spacing: 1px;
+        }
+
+        .signin-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .signin-form input {
+            padding: 14px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 15px;
+        }
+
+        .stay {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+        }
+
+        .black-btn {
+            background: #000;
+            color: #fff;
+            padding: 14px;
+            border: none;
+            border-radius: 4px;
+            font-size: 15px;
+            cursor: pointer;
+        }
+
+        .white-btn {
+            background: #fff;
+            color: #000;
+            padding: 14px;
+            border: 1px solid #000;
+            border-radius: 4px;
+            font-size: 15px;
+            cursor: pointer;
+        }
+
+        .forgot {
+            margin-top: 10px;
+            font-size: 14px;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- NAVIGATION BAR -->
+<header class="navbar">
+    <div class="nav-container">
+
+        <!-- LEFT NAV -->
+        <nav class="main-nav">
+
+            <!-- MEN -->
+            <div class="dropdown">
+  <input type="checkbox" id="men-toggle" class="toggle">
+  <label for="men-toggle">MEN</label>
+
+  <div class="dropdown-area">
+    <div class="section">
+      <label>CLOTHING</label>
+      <div class="sub-menu">
+        <a href="men.html?category=shirts">SHIRTS</a>
+        <a href="men.html?category=jackets">JACKETS</a>
+        <a href="men.html?category=jeans">JEANS</a>
+      </div>
+    </div>
+
+    <div class="section">
+      <label>ACCESSORIES</label>
+      <div class="sub-menu">
+        <a href="men.html?category=shoes">SHOES</a>
+        <a href="men.html?category=bags">BAGS</a>
+        <a href="men.html?category=jewelry">JEWELRY</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+            <!-- WOMEN -->
+            <div class="dropdown">
+        <input type="checkbox" id="women-toggle" class="toggle">
+        <label for="women-toggle">WOMEN</label>
+
+        <div class="dropdown-area">
+          <div class="section">
+  <label>CLOTHING</label>
+  <div class="sub-menu">
+    <a href="women.html?category=tops">TOPS</a>
+    <a href="women.html?category=dresses">DRESSES</a>
+    <a href="women.html?category=skirts">SKIRTS</a>
+  </div>
+</div>
+
+<div class="section">
+  <label>SHOES & ACCESSORIES</label>
+  <div class="sub-menu">
+    <a href="women.html?category=heels">HEELS</a>
+    <a href="women.html?category=bags">BAGS</a>
+    <a href="women.html?category=jewelry">JEWELRY</a>
+  </div>
+</div>
+
+        </div>
+      </div>
+
+
+        </nav>
+
+        <!-- CENTER LOGO -->
+        <a href="main.html">
+            <img src="img/logo.png" class="logo" alt="">
+        </a>
+
+        <!-- RIGHT NAV -->
+        <div class="nav-right">
+            <a href="search.html"><i class="fa-solid fa-magnifying-glass"></i></a>
+            <a href="sign-in.html"><i class="fa-regular fa-user"></i></a>
+            <a href="wishlist.html"><i class="fa-regular fa-heart"></i></a>
+            <a href="cart.html"><i class="fa-solid fa-cart-shopping"></i></a>
+        </div>
+
+    </div>
+</header>
+
+<!-- SIGN IN FORM -->
+<section class="center-box">
+    <img src="img/title-logo.png" class="title-image small-logo" alt="Trendify Apparel" />
+
+    <h2 class="signin-heading">SIGN IN</h2>
+
+    <form class="signin-form">
+        <input type="email" placeholder="E-mail" />
+        <input type="password" placeholder="Password" />
+
+        <div class="stay">
+            <input type="checkbox" id="stay-signed" />
+            <label for="stay-signed">Stay signed in</label>
+        </div>
+
+        <button class="black-btn" type="submit">SIGN IN</button>
+
+        <button type="button" class="white-btn">CREATE ACCOUNT</button>
+
+        <p class="forgot">Forgotten your password?</p>
+    </form>
+</section>
+
+<!-- OUTSIDE CLICK SCRIPT -->
+<script>
+    document.addEventListener("click", function(e) {
+        const dropdowns = document.querySelectorAll(".dropdown");
+
+        dropdowns.forEach(drop => {
+            const toggle = drop.querySelector(".toggle");
+
+            if (!drop.contains(e.target)) {
+                toggle.checked = false;
+            }
+        });
+    });
+</script>
+
+</body>
+</html>

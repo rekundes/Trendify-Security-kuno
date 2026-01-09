@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Women – Trendify</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, Helvetica, sans-serif; }
+    body { background: #fff; }
+
+    /* ---------------- HEADER ---------------- */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 9999;
+      background: #fff;
+      padding: 14px 40px;
+      border-bottom: 1px solid #e7e7e7;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .nav-container {
+      width: 100%;
+      max-width: 1400px;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+    }
+
+    .main-nav {
+      display: flex;
+      align-items: center;
+      gap: 35px;
+    }
+
+    .main-nav label,
+    .main-nav a {
+      font-size: 18px;
+      font-weight: bold;
+      letter-spacing: 1px;
+      text-decoration: none;
+      color: #000;
+      cursor: pointer;
+    }
+
+
+    /* Active Link Highlighting */
+.main-nav a.active {
+    border-bottom: 2px solid #000;
+    padding-bottom: 2px;
+}
+
+/* Dynamic Cart Counter */
+.nav-right a {
+    position: relative;
+}
+
+.cart-count {
+    position: absolute;
+    top: -8px;
+    right: -10px;
+    background: #ff0000;
+    color: #fff;
+    font-size: 10px;
+    font-weight: bold;
+    padding: 2px 5px;
+    border-radius: 50%;
+    display: none; /* Hidden when empty */
+}
+
+    .logo {
+      width: 70px;
+      display: block;
+      margin: 0 auto;
+    }
+
+    .nav-right {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 22px;
+    }
+
+    .nav-right i {
+      font-size: 22px;
+      color: #000;
+      cursor: pointer;
+    }
+
+    /* ---------------- DROPDOWN ---------------- */
+    .dropdown { position: relative; }
+    .toggle { display: none; }
+
+    .toggle:checked + label + .dropdown-area {
+      display: flex;
+    }
+
+    .dropdown-area {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 260px;
+      background: #fff;
+      border-right: 1px solid #ddd;
+      padding: 25px 20px;
+      padding-right: 35px;
+      display: none;
+      flex-direction: column;
+      gap: 22px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    }
+
+    .section label {
+      font-size: 15px;
+      font-weight: bold;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+
+    .sub-menu {
+      display: none;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 8px;
+      padding-left: 12px;
+      border-left: 2px solid #000;
+    }
+
+    .section:hover .sub-menu {
+      display: flex;
+    }
+
+    .sub-menu a {
+      font-size: 14px;
+      font-weight: bold;
+      text-transform: uppercase;
+      color: #000;
+      text-decoration: none;
+    }
+
+    /* ---------------- CATEGORY TITLE ---------------- */
+    .category-title {
+      text-align: center;
+      font-size: 32px;
+      font-weight: bold;
+      margin: 40px 0 20px;
+      letter-spacing: 1px;
+    }
+
+    /* ---------------- PRODUCT GRID ---------------- */
+.product-grid {
+  display: grid;
+  /* Force exactly 3 columns */
+  grid-template-columns: repeat(3, 1fr); 
+  gap: 30px;
+  padding: 0 40px 60px;
+}
+
+.product-card {
+    position: relative; /* For badge positioning */
+}
+
+/* Product Badge Styling */
+.badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: #000;
+    color: #fff;
+    font-size: 11px;
+    font-weight: bold;
+    padding: 4px 8px;
+    text-transform: uppercase;
+    z-index: 10;
+}
+
+/* Hover Image Effect */
+.product-card .secondary-img {
+    display: none;
+}
+
+.product-card:hover .primary-img {
+    display: none;
+}
+
+.product-card:hover .secondary-img {
+    display: block;
+}
+
+    .product-info {
+      padding: 15px;
+    }
+
+    .product-name {
+      font-size: 15px;
+      font-weight: bold;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+    }
+
+    .product-price {
+      font-size: 15px;
+      color: #333;
+    }
+
+    /* ---------------- NEWSLETTER ---------------- */
+    .newsletter {
+      padding: 60px 20px;
+      text-align: center;
+      border-top: 1px solid #eee;
+    }
+
+    .newsletter input {
+      width: 100%;
+      max-width: 400px;
+      padding: 12px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    .newsletter button {
+      padding: 12px 28px;
+      background: #000;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    /* ---------------- FOOTER ---------------- */
+    footer {
+      padding: 40px 20px;
+      background: #f9f9f9;
+      border-top: 1px solid #ddd;
+      font-size: 14px;
+      color: #333;
+    }
+
+    .footer-grid {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 25px;
+    }
+
+    .footer-grid h4 {
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .footer-bottom {
+      text-align: center;
+      margin-top: 30px;
+      font-size: 13px;
+      color: #666;
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<header class="navbar">
+  <div class="nav-container">
+
+    <nav class="main-nav">
+
+      <!-- MEN -->
+      <div class="dropdown">
+  <input type="checkbox" id="men-toggle" class="toggle">
+  <label for="men-toggle">MEN</label>
+
+  <div class="dropdown-area">
+    <div class="section">
+      <label>CLOTHING</label>
+      <div class="sub-menu">
+        <a href="men.html?category=shirts">SHIRTS</a>
+        <a href="men.html?category=jackets">JACKETS</a>
+        <a href="men.html?category=jeans">JEANS</a>
+      </div>
+    </div>
+
+    <div class="section">
+      <label>ACCESSORIES</label>
+      <div class="sub-menu">
+        <a href="men.html?category=shoes">SHOES</a>
+        <a href="men.html?category=bags">BAGS</a>
+        <a href="men.html?category=jewelry">JEWELRY</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+      <!-- WOMEN -->
+      <div class="dropdown">
+        <input type="checkbox" id="women-toggle" class="toggle">
+        <label for="women-toggle">WOMEN</label>
+        <div class="dropdown-area">
+          <div class="section">
+            <label>CLOTHING</label>
+            <div class="sub-menu">
+              <a href="women.html?category=tops">TOPS</a>
+              <a href="women.html?category=dresses">DRESSES</a>
+              <a href="women.html?category=skirts">SKIRTS</a>
+            </div>
+          </div>
+          <div class="section">
+            <label>SHOES & ACCESSORIES</label>
+            <div class="sub-menu">
+              <a href="women.html?category=heels">HEELS</a>
+              <a href="women.html?category=bags">BAGS</a>
+              <a href="women.html?category=jewelry">JEWELRY</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+    </nav>
+
+    <a href="main.html">
+      <img src="img/logo.png" class="logo">
+    </a>
+
+    <div class="nav-right">
+      <a href="search.html"><i class="fa-solid fa-magnifying-glass"></i></a>
+      <a href="sign-in.html"><i class="fa-regular fa-user"></i></a>
+      <a href="wishlist.html"><i class="fa-regular fa-heart"></i></a>
+      <a href="cart.html"><i class="fa-solid fa-cart-shopping"></i></a>
+    </div>
+
+  </div>
+</header>
+
+<!-- CATEGORY TITLE -->
+<h1 class="category-title" id="categoryTitle">WOMEN</h1>
+
+<!-- PRODUCT GRID -->
+<div class="product-grid" id="productGrid"></div>
+
+<!-- NEWSLETTER -->
+<section class="newsletter">
+  <h3>10% off your next purchase by subscribing to the newsletter</h3>
+  <form>
+    <input type="email" placeholder="E-mail">
+    <button type="submit">SIGN UP NOW</button>
+    <p>By subscribing, you confirm that you have read the <a href="#">Privacy Policy</a>.</p>
+  </form>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+
+    <div>
+      <h4>CUSTOMER SERVICE</h4>
+      <p><a href="#">Help</a></p>
+      <p><a href="#">My Purchases</a></p>
+      <p><a href="#">Returns</a></p>
+    </div>
+
+    <div>
+      <h4>COMPANY</h4>
+      <p><a href="#">About Us</a></p>
+      <p><a href="#">Work for Trendify</a></p>
+      <p><a href="#">Press</a></p>
+    </div>
+
+    <div>
+      <h4>DISCOVER</h4>
+      <p><a href="#">Responsibility</a></p>
+      <p><a href="#">Stores</a></p>
+      <p><a href="#">Site Map</a></p>
+    </div>
+
+    <div>
+      <h4>FOLLOW US</h4>
+      <p>Instagram · Facebook · YouTube</p>
+      <p>TikTok · Spotify · Pinterest</p>
+      <p>X · LinkedIn</p>
+    </div>
+
+    <div>
+      <h4>LOCATION</h4>
+      <p>PHILIPPINES ▼</p>
+    </div>
+
+  </div>
+
+  <div class="footer-bottom">
+    <p>
+      <a href="#">Privacy Policy and Cookies</a> ·
+      <a href="#">Terms and Conditions</a> ·
+      <a href="#">Ethics Channel</a>
+    </p>
+    <p style="margin-top: 10px;">© 2025 Trendify. All rights reserved.</p>
+  </div>
+</footer>
+
+<!-- OUTSIDE CLICK SCRIPT -->
+<script>
+  document.addEventListener("click", function(e) {
+    const dropdowns = document.querySelectorAll(".dropdown");
+    dropdowns.forEach(drop => {
+      const toggle = drop.querySelector(".toggle");
+      if (!drop.contains(e.target)) toggle.checked = false;
+    });
+  });
+
+  /* ---------------- CATEGORY SYSTEM ---------------- */
+  const params = new URLSearchParams(window.location.search);
+  const category = params.get("category") || "tops";
+
+  const categoryTitle = document.getElementById("categoryTitle");
+  const productGrid = document.getElementById("productGrid");
+
+const categories = {
+  tops: [
+    { img: "img/top1.jpg", name: "Cotton blouse", price: "₱1,295" },
+    { img: "img/top2.jpg", name: "Sleeveless top", price: "₱995" },
+    { img: "img/top3.jpg", name: "Ribbed knit top", price: "₱1,195" },
+    { img: "img/top4.jpg", name: "Lace trim top", price: "₱1,395" },
+    { img: "img/top5.jpg", name: "Off-shoulder blouse", price: "₱1,495" },
+    { img: "img/top6.jpg", name: "Graphic tank", price: "₱895" }
+  ],
+  dresses: [
+    { img: "img/dress1.jpg", name: "Floral midi dress", price: "₱2,495" },
+    { img: "img/dress2.jpg", name: "Satin slip dress", price: "₱2,995" },
+    { img: "img/dress3.jpg", name: "Pleated dress", price: "₱2,295" },
+    { img: "img/dress4.jpg", name: "Wrap mini dress", price: "₱1,995" },
+    { img: "img/dress5.jpg", name: "Maxi sundress", price: "₱3,195" },
+    { img: "img/dress6.jpg", name: "Bodycon dress", price: "₱2,495" }
+  ],
+  skirts: [
+    { img: "img/skirt1.jpg", name: "A-line skirt", price: "₱1,495" },
+    { img: "img/skirt2.jpg", name: "Denim skirt", price: "₱1,295" },
+    { img: "img/skirt3.jpg", name: "Pleated skirt", price: "₱1,695" },
+    { img: "img/skirt4.jpg", name: "Mini leather skirt", price: "₱1,895" },
+    { img: "img/skirt5.jpg", name: "Pencil skirt", price: "₱1,595" },
+    { img: "img/skirt6.jpg", name: "Satin midi skirt", price: "₱2,195" }
+  ],
+  heels: [
+    { img: "img/heels1.jpg", name: "Strappy heels", price: "₱1,995" },
+    { img: "img/heels2.jpg", name: "Block heels", price: "₱1,895" },
+    { img: "img/heels3.jpg", name: "Pointed heels", price: "₱2,195" },
+    { img: "img/heels4.jpg", name: "Platform heels", price: "₱2,495" },
+    { img: "img/heels5.jpg", name: "Slingback heels", price: "₱2,095" },
+    { img: "img/heels6.jpg", name: "Mule heels", price: "₱1,795" }
+  ],
+  bags: [
+    { img: "img/bag1.jpg", name: "Leather handbag", price: "₱3,495" },
+    { img: "img/bag2.jpg", name: "Mini shoulder bag", price: "₱2,295" },
+    { img: "img/bag3.jpg", name: "Crossbody bag", price: "₱2,495" },
+    { img: "img/bag4.jpg", name: "Clutch bag", price: "₱1,895" },
+    { img: "img/bag5.jpg", name: "Backpack purse", price: "₱2,995" },
+    { img: "img/bag6.jpg", name: "Straw tote", price: "₱1,595" }
+  ],
+  jewelry: [
+    { img: "img/jewel1.jpg", name: "Gold hoop earrings", price: "₱795" },
+    { img: "img/jewel2.jpg", name: "Layered necklace", price: "₱995" },
+    { img: "img/jewel3.jpg", name: "Bracelet set", price: "₱895" },
+    { img: "img/jewel4.jpg", name: "Pendant necklace", price: "₱1,195" },
+    { img: "img/jewel5.jpg", name: "Stackable rings", price: "₱695" },
+    { img: "img/jewel6.jpg", name: "Stud earrings", price: "₱495" }
+  ]
+};
+
+  categoryTitle.textContent = category.toUpperCase();
+
+categories[category].forEach(item => {
+    // Randomly assign a badge for demonstration, or add 'badge' to your category objects
+    const badgeHtml = item.isNew ? `<div class="badge">New</div>` : '';
+    
+    productGrid.innerHTML += `
+      <div class="product-card">
+        ${badgeHtml}
+        <img src="${item.img}" class="primary-img">
+        <img src="${item.secondaryImg || item.img}" class="secondary-img">
+        <div class="product-info">
+          <div class="product-name">${item.name}</div>
+          <div class="product-price">${item.price}</div>
+        </div>
+      </div>
+    `;
+});
+</script>
+
+</body>
+</html>

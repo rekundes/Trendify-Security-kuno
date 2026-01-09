@@ -1,0 +1,266 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    background: #ffffff;
+}
+
+/* ---------------- NAVIGATION BAR ---------------- */
+.navbar {
+    position: sticky;
+    top: 0;
+    z-index: 9999;
+    background: #fff;
+    width: 100%;
+    padding: 14px 40px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    border-bottom: 1px solid #e7e7e7;
+}
+
+
+/* Active Link Highlighting */
+.main-nav a.active {
+    border-bottom: 2px solid #000;
+    padding-bottom: 2px;
+}
+
+/* Dynamic Cart Counter */
+.nav-right a {
+    position: relative;
+}
+
+.cart-count {
+    position: absolute;
+    top: -8px;
+    right: -10px;
+    background: #ff0000;
+    color: #fff;
+    font-size: 10px;
+    font-weight: bold;
+    padding: 2px 5px;
+    border-radius: 50%;
+    display: none; /* Hidden when empty */
+}
+
+.logo {
+    width: 70px;
+}
+
+.left-nav {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.main-nav a {
+    text-decoration: none;
+    color: #000;
+    font-size: 18px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.right-nav {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+}
+
+.right-nav i {
+    font-size: 22px;
+    cursor: pointer;
+    color: #000;
+}
+
+/* ---------------- TITLE IMAGE ---------------- */
+
+.title-section {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.title-image {
+    width: 460px;
+    max-width: 92%;
+    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.2));
+}
+
+/* ---------------- GALLERY ---------------- */
+
+.gallery {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    margin-top: 25px;
+    padding: 0 20px;
+    gap: 15px;
+}
+
+.photo-card {
+    overflow: hidden;
+    border-radius: 5px;
+}
+
+.photo-card img {
+    width: 100%;
+    height: 550px;
+    object-fit: cover;
+}
+
+/* ------------- SIGN IN LAYOUT ------------- */
+
+.center-box {
+    max-width: 460px;
+    margin: 40px auto 80px;
+    text-align: left;
+}
+
+.small-logo {
+    display: block;
+    margin: 0 auto 24px;
+    width: 240px;
+    max-width: 80%;
+}
+
+.signin-heading {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.signin-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.signin-form input[type="email"],
+.signin-form input[type="password"] {
+    width: 100%;
+    padding: 16px 18px;
+    border: 2px solid #000;
+    font-size: 16px;
+}
+
+.stay {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 15px;
+    margin-top: 4px;
+}
+
+.stay input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+}
+
+.black-btn {
+    width: 100%;
+    padding: 16px 0;
+    margin-top: 10px;
+    background: #000;
+    color: #fff;
+    border: none;
+    font-size: 16px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    cursor: pointer;
+}
+
+.white-btn {
+    width: 100%;
+    padding: 16px 0;
+    margin-top: 10px;
+    background: #fff;
+    color: #000;
+    border: 2px solid #000;
+    font-size: 16px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    cursor: pointer;
+}
+
+.forgot {
+    text-align: center;
+    margin-top: 22px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+/* ------------- WISHLIST PAGE ------------- */
+
+.wishlist-container {
+    max-width: 1000px;
+    margin: 40px auto 80px;
+    padding: 0 20px;
+}
+
+.wishlist-container h2 {
+    font-size: 26px;
+    margin-bottom: 20px;
+}
+
+.empty-box {
+    margin-top: 10px;
+    margin-bottom: 40px;
+}
+
+.empty-box h3 {
+    font-size: 22px;
+    margin-bottom: 14px;
+}
+
+.empty-box p {
+    font-size: 15px;
+    margin-bottom: 4px;
+}
+
+.popular-title {
+    font-size: 22px;
+    margin-bottom: 20px;
+}
+
+.popular-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 200px);
+    gap: 24px;
+}
+
+.product-card {
+    position: relative; /* For badge positioning */
+}
+
+/* Product Badge Styling */
+.badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: #000;
+    color: #fff;
+    font-size: 11px;
+    font-weight: bold;
+    padding: 4px 8px;
+    text-transform: uppercase;
+    z-index: 10;
+}
+
+/* Hover Image Effect */
+.product-card .secondary-img {
+    display: none;
+}
+
+.product-card:hover .primary-img {
+    display: none;
+}
+
+.product-card:hover .secondary-img {
+    display: block;
+}
