@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Women – Discover More · Trendify</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, Helvetica, sans-serif; }
+    body { background: #fff; }
+
+    /* NAV */
+    .navbar { position: sticky; top: 0; z-index: 9999; background: #fff; width: 100%; padding: 14px 40px; display: flex; justify-content: center; align-items: center; border-bottom: 1px solid #e7e7e7; }
+    .nav-container { width: 100%; max-width: 1400px; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; }
+    .main-nav { display: flex; align-items: center; gap: 35px; }
+    .main-nav label, .main-nav a { font-size: 18px; font-weight: bold; letter-spacing: 1px; text-decoration: none; color: #000; cursor: pointer; }
+    .logo { width: 70px; display: block; margin: 0 auto; }
+
+    /* HERO */
+    .hero { width: 100%; height: 520px; background: url('img/img3.jpg') center/cover no-repeat; display: flex; align-items: center; justify-content: center; }
+    .hero h1 { font-size: 48px; color: #fff; letter-spacing: 3px; text-shadow: 0 4px 10px rgba(0,0,0,0.4); }
+
+    /* CATEGORIES */
+    .categories { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; padding: 40px; }
+    .cat-card { position: relative; overflow: hidden; border-radius: 6px; cursor: pointer; }
+    .cat-card img { width: 100%; height: 260px; object-fit: cover; transition: 0.3s ease; }
+    .cat-card:hover img { filter: brightness(60%); }
+    .cat-card span { position: absolute; bottom: 20px; left: 20px; font-size: 20px; font-weight: bold; color: #fff; letter-spacing: 1px; }
+
+    /* FEATURED */
+    .section-title { text-align: center; font-size: 26px; margin-top: 40px; margin-bottom: 20px; letter-spacing: 1px; }
+    .product-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; padding: 0 40px 60px; }
+    .product-card { border: 1px solid #eee; border-radius: 6px; overflow: hidden; transition: 0.3s ease; }
+    .product-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+    .product-card img { width: 100%; height: 340px; object-fit: cover; }
+    .product-info { padding: 15px; }
+    .product-name { font-size: 15px; font-weight: bold; margin-bottom: 6px; text-transform: uppercase; }
+    .product-price { font-size: 15px; color: #333; }
+
+    footer { padding: 40px 20px; background: #f9f9f9; border-top: 1px solid #ddd; font-size: 14px; color: #333; }
+    .footer-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 25px; }
+  </style>
+</head>
+<body>
+
+<header class="navbar">
+  <div class="nav-container">
+    <nav class="main-nav"></nav>
+
+    <a href="main.html"><img src="img/logo.png" class="logo" alt="Trendify"></a>
+
+    <div class="nav-right">
+      <a href="search.html"><i class="fa-solid fa-magnifying-glass"></i></a>
+      <a href="sign-in.html"><i class="fa-regular fa-user"></i></a>
+      <a href="cart.html"><i class="fa-solid fa-cart-shopping"></i></a>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <h1>WOMEN'S COLLECTION</h1>
+</section>
+
+<section class="categories">
+  <div class="cat-card">
+    <img src="img/img/women-top1.jpg" onerror="this.onerror=null;this.src='img/img/placeholder.jpg'">
+    <span>TOPS</span>
+  </div>
+  <div class="cat-card">
+    <img src="img/img/img/women-dress1.jpg" onerror="this.onerror=null;this.src='img/img/placeholder.jpg'">
+    <span>DRESSES</span>
+  </div>
+  <div class="cat-card">
+    <img src="img/img/img/women-skirts4.jpg" onerror="this.onerror=null;this.src='img/img/placeholder.jpg'">
+    <span>SKIRTS</span>
+  </div>
+  <div class="cat-card">
+    <img src="img/img/img/women-bags1.jpg" onerror="this.onerror=null;this.src='img/img/placeholder.jpg'">
+    <span>ACCESSORIES</span>
+  </div>
+</section>
+
+<h2 class="section-title">FEATURED WOMEN</h2>
+<section class="product-grid">
+  <div class="product-card">
+    <img src="img/img/img/women-dress5.jpg" onerror="this.onerror=null;this.src='img/img/placeholder.jpg'">
+    <div class="product-info">
+      <div class="product-name">Blue Short Sleeve Dress</div>
+      <div class="product-price">Php 3,195</div>
+    </div>
+  </div>
+
+  <div class="product-card">
+    <img src="img/img/women-top5.jpg" onerror="this.onerror=null;this.src='img/img/placeholder.jpg'">
+    <div class="product-info">
+      <div class="product-name">Butterfly Top</div>
+      <div class="product-price">Php 1,495</div>
+    </div>
+  </div>
+
+  <div class="product-card">
+    <img src="img/img/img/women-skirts6.jpg" onerror="this.onerror=null;this.src='img/img/placeholder.jpg'">
+    <div class="product-info">
+      <div class="product-name">Pink Skirt</div>
+      <div class="product-price">Php 2,195</div>
+    </div>
+  </div>
+
+  <div class="product-card">
+    <img src="img/img/img/women-heels2.jpg" onerror="this.onerror=null;this.src='img/img/placeholder.jpg'">
+    <div class="product-info">
+      <div class="product-name">Black Heels</div>
+      <div class="product-price">Php 1,895</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-grid">
+    <div>
+      <h4>CUSTOMER SERVICE</h4>
+      <p><a href="#">Help</a></p>
+      <p><a href="#">My Purchases</a></p>
+      <p><a href="#">Returns</a></p>
+    </div>
+    <div>
+      <h4>COMPANY</h4>
+      <p><a href="#">About Us</a></p>
+      <p><a href="#">Work for Trendify</a></p>
+      <p><a href="#">Press</a></p>
+    </div>
+    <div>
+      <h4>DISCOVER</h4>
+      <p><a href="#">Responsibility</a></p>
+      <p><a href="#">Stores</a></p>
+      <p><a href="#">Site Map</a></p>
+    </div>
+    <div>
+      <h4>FOLLOW US</h4>
+      <p>Instagram · Facebook · YouTube</p>
+      <p>TikTok · Spotify · Pinterest</p>
+      <p>X · LinkedIn</p>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p>
+      <a href="#">Privacy Policy and Cookies</a> ·
+      <a href="#">Terms and Conditions</a> ·
+      <a href="#">Ethics Channel</a>
+    </p>
+    <p style="margin-top: 10px;">© 2025 Trendify. All rights reserved.</p>
+  </div>
+</footer>
+
+</body>
+</html>
