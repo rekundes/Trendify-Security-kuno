@@ -10,7 +10,6 @@
 <link rel="icon" href="img/logo.png" type="image/png">
 </head>
 <body>
-
 <!-- HEADER -->
 <header class="navbar">
   <div class="nav-container">
@@ -275,22 +274,21 @@
   });
 
   productGrid.innerHTML = html;
-const cards = productGrid.querySelectorAll('.product-card');
 
-cards.forEach(card => {
-  card.addEventListener('click', () => {
-    const primaryImg = card.querySelector('.primary-img');
-    const priceEl = card.querySelector('.product-price');
+  // Attach click listener to all cards
+  const cards = productGrid.querySelectorAll('.product-card');
+  cards.forEach((card, idx) => {
+    const item = categories[category][idx];
 
-    if (hoverPreview && hoverPreviewImg && hoverPriceBadge && primaryImg && priceEl) {
-      hoverPreviewImg.src = primaryImg.src;           // always use this card's image
-      hoverPriceBadge.textContent = priceEl.textContent; // use this card's price
-      hoverPreview.classList.add('show');
-      hoverPreview.setAttribute('aria-hidden', 'false');
-    }
+    card.addEventListener('click', () => {
+      if (hoverPreview && hoverPreviewImg && hoverPriceBadge) {
+        hoverPreviewImg.src = item.img;
+        hoverPriceBadge.textContent = item.price;
+        hoverPreview.classList.add('show');
+        hoverPreview.setAttribute('aria-hidden', 'false');
+      }
+    });
   });
-});
-
 
   // Close hover on X button
   hoverCloseBtn.addEventListener('click', () => {
@@ -338,9 +336,20 @@ cards.forEach(card => {
   /* ----- ADD TO CART BUTTON ----- */
   const addBtn = document.querySelector('.hover-add-btn');
 
-  addBtn.addEventListener('click', () => {
+  addBtn.addEventListener('click', (e) => {
+    const hasProfile = localStorage.getItem('hasProfile') === 'true';
+    if (!hasProfile) {
+      // Prevent other handlers and redirect to sign-in so user can create an account/profile
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      const returnUrl = window.location.href;
+      window.location.href = `sign-in.html?next=${encodeURIComponent(returnUrl)}`;
+      return;
+    }
+
+    // User has profile — proceed to add to cart (placeholder behavior)
     alert(`Added to cart:\nSize: ${selectedSize}\nQuantity: ${quantity}`);
-    // Later, real cart logic can be added here.
+    // TODO: Add real cart logic here.
   });
 </script>
 

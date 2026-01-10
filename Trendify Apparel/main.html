@@ -486,6 +486,14 @@ document.addEventListener("DOMContentLoaded", function() {
     }
     updateCartCounter();
 });
+
+
+function logout() {
+    localStorage.removeItem('isLoggedIn');
+    alert("You have logged out.");
+    window.location.reload(); // Refresh the page to update the UI
+}
+
 </script>
 
 </body>

@@ -197,17 +197,6 @@ body {
 
 /* ------------- WISHLIST PAGE ------------- */
 
-.wishlist-container {
-    max-width: 1000px;
-    margin: 40px auto 80px;
-    padding: 0 20px;
-}
-
-.wishlist-container h2 {
-    font-size: 26px;
-    margin-bottom: 20px;
-}
-
 .empty-box {
     margin-top: 10px;
     margin-bottom: 40px;

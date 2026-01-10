@@ -303,20 +303,34 @@ document.querySelectorAll(".size-chip").forEach(chip=>{
   };
 });
 
-/* QTY */
-let quantity = 1;
-const qtyValue = document.querySelector(".qty-value");
-const renderQty = () => qtyValue.textContent = quantity;
+  /* QTY */
+  let quantity = 1;
+  const qtyValue = document.querySelector('.qty-value');
+  const qtyMinus = document.querySelector('.qty-btn.minus');
+  const qtyPlus = document.querySelector('.qty-btn.plus');
+  function renderQty() { qtyValue.textContent = quantity; }
+  qtyMinus.addEventListener('click', () => { if (quantity > 1) { quantity--; renderQty(); } });
+  qtyPlus.addEventListener('click', () => { quantity++; renderQty(); });
+  renderQty();
 
-document.querySelector(".qty-btn.minus").onclick=()=>{ if(quantity>1){quantity--;renderQty();}};
-document.querySelector(".qty-btn.plus").onclick=()=>{ quantity++;renderQty(); };
-renderQty();
+  /* ADD TO CART */
+  const addBtn = document.querySelector('.hover-add-btn');
+  addBtn.addEventListener('click', (e) => {
+    const hasProfile = localStorage.getItem('hasProfile') === 'true';
+    if (!hasProfile) {
+      // Prevent other handlers and redirect to sign-in so user can create an account/profile
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      const returnUrl = window.location.href;
+      window.location.href = `sign-in.html?next=${encodeURIComponent(returnUrl)}`;
+      return;
+    }
 
-/* ADD TO CART */
-document.querySelector(".hover-add-btn").onclick = () => {
-  alert(`Added to cart:\nSize: ${selectedSize}\nQuantity: ${quantity}`);
-};
+    alert(`Added to cart:\nSize: ${selectedSize}\nQuantity: ${quantity}`);
+  });
 </script>
 
 </body>
 </html>
+
+

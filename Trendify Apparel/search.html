@@ -6,9 +6,210 @@
   <title>Search – Trendify</title>
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <link rel="stylesheet" href="search.css">
-  <link rel="icon" href="img/logo.png" type="image/png">  
-  
+<link rel="icon" href="img/logo.png" type="image/png">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, Helvetica, sans-serif; }
+    body { background: #fff; }
+
+    /* ---------------- NAVIGATION BAR ---------------- */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 9999;
+      background: #fff;
+      width: 100%;
+      padding: 14px 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-bottom: 1px solid #e7e7e7;
+    }
+
+    .nav-container {
+      width: 100%;
+      max-width: 1400px;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+    }
+
+    .main-nav {
+      display: flex;
+      align-items: center;
+      gap: 35px;
+    }
+
+    .main-nav label,
+    .main-nav a {
+      font-size: 18px;
+      font-weight: bold;
+      letter-spacing: 1px;
+      text-decoration: none;
+      color: #000;
+      cursor: pointer;
+    }
+
+    .logo {
+      width: 70px;
+      display: block;
+      margin: 0 auto;
+    }
+
+    .nav-right {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 22px;
+      position: relative;
+    }
+
+    .nav-right i {
+      font-size: 22px;
+      color: #000;
+      cursor: pointer;
+    }
+
+    /* ---------------- DROPDOWN ---------------- */
+    .dropdown { position: relative; }
+    .toggle { display: none; }
+
+    .toggle:checked + label + .dropdown-area {
+      display: flex;
+    }
+
+    .dropdown-area {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 260px;
+      background: #fff;
+      border-right: 1px solid #ddd;
+      padding: 25px 20px;
+      padding-right: 35px;
+      display: none;
+      flex-direction: column;
+      gap: 22px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    }
+
+    .section label {
+      font-size: 15px;
+      font-weight: bold;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+
+    .sub-menu {
+      display: none;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 8px;
+      padding-left: 12px;
+      border-left: 2px solid #000;
+    }
+
+    .section:hover .sub-menu {
+      display: flex;
+    }
+
+    .sub-menu a {
+      font-size: 14px;
+      font-weight: bold;
+      text-transform: uppercase;
+      color: #000;
+      text-decoration: none;
+    }
+
+    .sub-menu a:hover { opacity: 0.7; }
+
+    /* ---------------- SEARCH BAR ---------------- */
+    .search-form {
+      width: 100%;
+      max-width: 600px;
+      margin: 40px auto 20px;
+      text-align: center;
+    }
+
+    .search-form input {
+      width: 100%;
+      padding: 14px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+
+    /* ---------------- RESULTS ---------------- */
+    .results-title {
+      text-align: center;
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 30px;
+      letter-spacing: 1px;
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+      padding: 0 40px 60px;
+    }
+
+    .product-card {
+      border: 1px solid #eee;
+      border-radius: 6px;
+      overflow: hidden;
+      transition: 0.3s ease;
+    }
+
+    .product-card:hover {
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .product-card img {
+      width: 100%;
+      height: 340px;
+      object-fit: cover;
+    }
+
+    .product-info { padding: 15px; }
+
+    .product-name {
+      font-size: 15px;
+      font-weight: bold;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+    }
+
+    .product-price {
+      font-size: 15px;
+      color: #333;
+    }
+
+    .product-price s {
+      color: #888;
+      margin-right: 6px;
+    }
+
+    /* Hover preview modal styles (copied from men.css) */
+    .hover-preview { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 700px; max-width: 95vw; background: #ffffff; padding: 28px 30px 30px; display: none; flex-direction: column; gap: 22px; z-index: 99999; border-radius: 18px; color: #000; box-shadow: 0 18px 45px rgba(0,0,0,0.25); }
+    .hover-preview.show { display: flex; }
+    .hover-image-wrapper { position: relative; }
+    .hover-preview img { width: 100%; max-height: 320px; object-fit: contain; display: block; border-radius: 12px; background: #f4f4f4; }
+    .hover-price-badge { position: absolute; left: 22px; bottom: 22px; padding: 8px 14px; border-radius: 999px; background: #000; color: #fff; font-size: 14px; font-weight: 600; }
+    .hover-close-btn { position: absolute; top: 14px; right: 16px; border: none; background: rgba(0,0,0,0.06); width: 28px; height: 28px; border-radius: 50%; cursor: pointer; font-size: 16px; line-height: 1; }
+    .hover-details { display: flex; flex-direction: column; gap: 14px; }
+    .hover-size-row { display: flex; flex-direction: column; gap: 8px; }
+    .hover-size-label { font-size: 14px; font-weight: 600; }
+    .hover-size-options { display: flex; gap: 10px; }
+    .size-chip { min-width: 46px; padding: 8px 14px; border-radius: 10px; border: 1px solid #555; text-align: center; font-size: 13px; cursor: pointer; background: transparent; color: #000; }
+    .size-chip.active { border-color: #000000; }
+    .hover-qty-row { display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+    .hover-qty-label { font-size: 14px; font-weight: 600; }
+    .hover-qty-controls { display: inline-flex; align-items: center; gap: 20px; background: #333; padding: 10px 18px; border-radius: 10px; }
+    .qty-btn { font-size: 18px; border: none; background: transparent; color: #fff; cursor: pointer; }
+    .qty-value { font-size: 15px; color: #fff; }
+    .hover-add-btn { margin-top: 6px; width: 100%; padding: 14px 18px; border-radius: 999px; border: none; background: #000000; color: #fff; font-size: 16px; font-weight: 600; cursor: pointer; }
+  </style>
 </head>
 
 <body>
@@ -283,6 +484,42 @@
         </div>
       </div>
     `).join('');
+
+    // Attach click to open preview modal
+    productGridEl.querySelectorAll('.product-card').forEach(card => {
+      card.addEventListener('click', () => {
+        const name = card.querySelector('.product-name')?.textContent.trim();
+        const price = card.querySelector('.product-price')?.textContent.trim();
+        const img = card.querySelector('img')?.src;
+
+        // Populate modal
+        const hoverPreview = document.getElementById('hoverPreview');
+        const hoverPreviewImg = document.getElementById('hoverPreviewImg');
+        const hoverPriceBadge = document.getElementById('hoverPriceBadge');
+        if (hoverPreviewImg) hoverPreviewImg.src = img;
+        if (hoverPriceBadge) hoverPriceBadge.textContent = price;
+
+        // reset size/qty UI
+        document.querySelectorAll('.size-chip').forEach(c => c.classList.remove('active'));
+        const defaultChip = document.querySelector('.size-chip');
+        if (defaultChip) defaultChip.classList.add('active');
+        document.querySelector('.qty-value').textContent = '1';
+
+        // show preview
+        if (hoverPreview) {
+          hoverPreview.classList.add('show');
+          hoverPreview.setAttribute('aria-hidden', 'false');
+        }
+
+        // update Add button state
+        updateAddButtonState();
+
+        // store current item in preview for add logic
+        hoverPreview.dataset.name = name || '';
+        hoverPreview.dataset.price = price || '';
+        hoverPreview.dataset.img = img || '';
+      });
+    });
   }
 
   // initial render of all products
@@ -313,6 +550,108 @@
     // Apply initial filter in case the input has a value from navigation
     filterProducts();
   }
+  // --- Hover preview logic (shared) ---
+  (function(){
+    const hoverPreview = document.createElement('div');
+    hoverPreview.id = 'hoverPreview';
+    hoverPreview.className = 'hover-preview';
+    hoverPreview.innerHTML = `
+      <button type="button" class="hover-close-btn">✕</button>
+      <div class="hover-image-wrapper">
+        <img id="hoverPreviewImg" src="" alt="Product preview" />
+        <div class="hover-price-badge" id="hoverPriceBadge">₱0</div>
+      </div>
+      <div class="hover-details">
+        <div class="hover-size-row">
+          <div class="hover-size-label">Size</div>
+          <div class="hover-size-options">
+            <button class="size-chip">S</button>
+            <button class="size-chip">M</button>
+            <button class="size-chip active">L</button>
+            <button class="size-chip">XL</button>
+          </div>
+        </div>
+        <div class="hover-qty-row">
+          <div class="hover-qty-label">Quantity</div>
+          <div class="hover-qty-controls">
+            <button class="qty-btn minus">−</button>
+            <span class="qty-value">1</span>
+            <button class="qty-btn plus">+</button>
+          </div>
+        </div>
+        <button type="button" class="hover-add-btn">Add to cart</button>
+      </div>`;
+
+    document.body.appendChild(hoverPreview);
+
+    // close
+    document.body.addEventListener('click', function(e){
+      if (e.target.matches('.hover-close-btn')) {
+        hoverPreview.classList.remove('show');
+        document.getElementById('hoverPreviewImg').src = '';
+        hoverPreview.setAttribute('aria-hidden','true');
+      }
+    });
+
+    // size selection
+    document.body.addEventListener('click', function(e){
+      if (e.target.classList.contains('size-chip')) {
+        document.querySelectorAll('.size-chip').forEach(c=>c.classList.remove('active'));
+        e.target.classList.add('active');
+      }
+    });
+
+    // qty
+    document.body.addEventListener('click', function(e){
+      if (e.target.classList.contains('qty-btn')) {
+        const valEl = document.querySelector('.qty-value');
+        let val = parseInt(valEl.textContent) || 1;
+        if (e.target.classList.contains('minus') && val>1) val--;
+        if (e.target.classList.contains('plus')) val++;
+        valEl.textContent = val;
+      }
+    });
+
+    function updateCartCounter() {
+      const counter = document.getElementById('cart-counter');
+      const cart = JSON.parse(localStorage.getItem('trendify_cart')) || [];
+      const total = cart.reduce((s,i)=>s+(i.qty||1),0);
+      if (counter) { counter.innerText = total; counter.style.display = total>0 ? 'block' : 'none'; }
+    }
+
+    // Add to cart handler
+    document.body.addEventListener('click', function(e){
+      if (e.target.classList.contains('hover-add-btn')) {
+        const hasProfile = localStorage.getItem('hasProfile') === 'true';
+        if (!hasProfile) { window.location.href = `sign-in.html?next=${encodeURIComponent(window.location.href)}`; return; }
+
+        const preview = document.getElementById('hoverPreview');
+        const name = preview.dataset.name || '';
+        const price = preview.dataset.price || '';
+        const img = preview.dataset.img || document.getElementById('hoverPreviewImg').src || '';
+        const qty = parseInt(document.querySelector('.qty-value').textContent) || 1;
+
+        const cart = JSON.parse(localStorage.getItem('trendify_cart')) || [];
+        const existing = cart.find(i=>i.name===name && i.price===price);
+        if (existing) existing.qty = (existing.qty||1)+qty; else cart.push({ name, price, img, qty });
+        localStorage.setItem('trendify_cart', JSON.stringify(cart));
+        updateCartCounter();
+        alert(`Added to cart:\n${name}\n${price}\nQty: ${qty}`);
+        preview.classList.remove('show');
+      }
+    });
+
+    // expose updateAddButtonState for later (kept simple - checks hasProfile to change label)
+    window.updateAddButtonState = function() {
+      const hasProfile = localStorage.getItem('hasProfile') === 'true';
+      const btn = document.querySelector('.hover-add-btn');
+      if (!btn) return;
+      btn.textContent = hasProfile ? 'Add to cart' : 'Sign in to add to cart';
+    };
+
+    // update cart counter on load
+    updateCartCounter();
+  })();
 </script>
 
 </body>

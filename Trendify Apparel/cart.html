@@ -289,10 +289,138 @@
         </div>
       </div>
     `).join('');
+
+    // Attach click to open preview modal (same behavior as search)
+    productGridEl.querySelectorAll('.product-card').forEach(card => {
+      card.addEventListener('click', () => {
+        const name = card.querySelector('.product-name')?.textContent.trim();
+        const price = card.querySelector('.product-price')?.textContent.trim();
+        const img = card.querySelector('img')?.src;
+
+        const hoverPreview = document.getElementById('hoverPreview');
+        const hoverPreviewImg = document.getElementById('hoverPreviewImg');
+        const hoverPriceBadge = document.getElementById('hoverPriceBadge');
+        if (hoverPreviewImg) hoverPreviewImg.src = img;
+        if (hoverPriceBadge) hoverPriceBadge.textContent = price;
+
+        document.querySelectorAll('.size-chip').forEach(c => c.classList.remove('active'));
+        const defaultChip = document.querySelector('.size-chip');
+        if (defaultChip) defaultChip.classList.add('active');
+        document.querySelector('.qty-value').textContent = '1';
+
+        if (hoverPreview) {
+          hoverPreview.classList.add('show');
+          hoverPreview.setAttribute('aria-hidden', 'false');
+        }
+
+        updateAddButtonState();
+        hoverPreview.dataset.name = name || '';
+        hoverPreview.dataset.price = price || '';
+        hoverPreview.dataset.img = img || '';
+      });
+    });
   }
 
   // Render all products on the cart page
   renderProducts(allProducts);
+
+  // --- Append hover preview modal and logic ---
+  (function(){
+    const hoverPreview = document.createElement('div');
+    hoverPreview.id = 'hoverPreview';
+    hoverPreview.className = 'hover-preview';
+    hoverPreview.innerHTML = `
+      <button type="button" class="hover-close-btn">✕</button>
+      <div class="hover-image-wrapper">
+        <img id="hoverPreviewImg" src="" alt="Product preview" />
+        <div class="hover-price-badge" id="hoverPriceBadge">₱0</div>
+      </div>
+      <div class="hover-details">
+        <div class="hover-size-row">
+          <div class="hover-size-label">Size</div>
+          <div class="hover-size-options">
+            <button class="size-chip">S</button>
+            <button class="size-chip">M</button>
+            <button class="size-chip active">L</button>
+            <button class="size-chip">XL</button>
+          </div>
+        </div>
+        <div class="hover-qty-row">
+          <div class="hover-qty-label">Quantity</div>
+          <div class="hover-qty-controls">
+            <button class="qty-btn minus">−</button>
+            <span class="qty-value">1</span>
+            <button class="qty-btn plus">+</button>
+          </div>
+        </div>
+        <button type="button" class="hover-add-btn">Add to cart</button>
+      </div>`;
+
+    document.body.appendChild(hoverPreview);
+
+    document.body.addEventListener('click', function(e){
+      if (e.target.matches('.hover-close-btn')) {
+        hoverPreview.classList.remove('show');
+        document.getElementById('hoverPreviewImg').src = '';
+        hoverPreview.setAttribute('aria-hidden','true');
+      }
+    });
+
+    document.body.addEventListener('click', function(e){
+      if (e.target.classList.contains('size-chip')) {
+        document.querySelectorAll('.size-chip').forEach(c=>c.classList.remove('active'));
+        e.target.classList.add('active');
+      }
+    });
+
+    document.body.addEventListener('click', function(e){
+      if (e.target.classList.contains('qty-btn')) {
+        const valEl = document.querySelector('.qty-value');
+        let val = parseInt(valEl.textContent) || 1;
+        if (e.target.classList.contains('minus') && val>1) val--;
+        if (e.target.classList.contains('plus')) val++;
+        valEl.textContent = val;
+      }
+    });
+
+    function updateCartCounter() {
+      const counter = document.getElementById('cart-counter');
+      const cart = JSON.parse(localStorage.getItem('trendify_cart')) || [];
+      const total = cart.reduce((s,i)=>s+(i.qty||1),0);
+      if (counter) { counter.innerText = total; counter.style.display = total>0 ? 'block' : 'none'; }
+    }
+
+    document.body.addEventListener('click', function(e){
+      if (e.target.classList.contains('hover-add-btn')) {
+        const hasProfile = localStorage.getItem('hasProfile') === 'true';
+        if (!hasProfile) { window.location.href = `sign-in.html?next=${encodeURIComponent(window.location.href)}`; return; }
+
+        const preview = document.getElementById('hoverPreview');
+        const name = preview.dataset.name || '';
+        const price = preview.dataset.price || '';
+        const img = preview.dataset.img || document.getElementById('hoverPreviewImg').src || '';
+        const qty = parseInt(document.querySelector('.qty-value').textContent) || 1;
+
+        const cart = JSON.parse(localStorage.getItem('trendify_cart')) || [];
+        const existing = cart.find(i=>i.name===name && i.price===price);
+        if (existing) existing.qty = (existing.qty||1)+qty; else cart.push({ name, price, img, qty });
+        localStorage.setItem('trendify_cart', JSON.stringify(cart));
+        updateCartCounter();
+        alert(`Added to cart:\n${name}\n${price}\nQty: ${qty}`);
+        preview.classList.remove('show');
+      }
+    });
+
+    window.updateAddButtonState = function() {
+      const hasProfile = localStorage.getItem('hasProfile') === 'true';
+      const btn = document.querySelector('.hover-add-btn');
+      if (!btn) return;
+      btn.textContent = hasProfile ? 'Add to cart' : 'Sign in to add to cart';
+    };
+
+    updateCartCounter();
+  })();
+
 </script>
 
 </body>
