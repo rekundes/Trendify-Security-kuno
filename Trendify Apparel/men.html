@@ -6,292 +6,8 @@
   <title>Men – Trendify</title>
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, Helvetica, sans-serif; }
-    body { background: #fff; }
-
-    /* HEADER */
-    .navbar {
-      position: sticky;
-      top: 0;
-      z-index: 9999;
-      background: #fff;
-      padding: 14px 40px;
-      border-bottom: 1px solid #e7e7e7;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .nav-container {
-      width: 100%;
-      max-width: 1400px;
-      display: grid;
-      grid-template-columns: 1fr auto 1fr;
-      align-items: center;
-    }
-
-    .main-nav {
-      display: flex;
-      align-items: center;
-      gap: 35px;
-    }
-
-    .main-nav label,
-    .main-nav a {
-      font-size: 18px;
-      font-weight: bold;
-      letter-spacing: 1px;
-      text-decoration: none;
-      color: #000;
-      cursor: pointer;
-    }
-
-    /* Active Link Highlighting */
-.main-nav a.active {
-    border-bottom: 2px solid #000;
-    padding-bottom: 2px;
-}
-
-/* Dynamic Cart Counter */
-.nav-right a {
-    position: relative;
-}
-
-.cart-count {
-    position: absolute;
-    top: -8px;
-    right: -10px;
-    background: #ff0000;
-    color: #fff;
-    font-size: 10px;
-    font-weight: bold;
-    padding: 2px 5px;
-    border-radius: 50%;
-    display: none; /* Hidden when empty */
-}
-
-    .logo {
-      width: 70px;
-      display: block;
-      margin: 0 auto;
-    }
-
-    .nav-right {
-      display: flex;
-      justify-content: flex-end;
-      align-items: center;
-      gap: 22px;
-    }
-
-    .nav-right i {
-      font-size: 22px;
-      color: #000;
-      cursor: pointer;
-    }
-
-    /* DROPDOWN */
-    .dropdown { position: relative; }
-    .toggle { display: none; }
-    .toggle:checked + label + .dropdown-area { display: flex; }
-
-    .dropdown-area {
-      position: absolute;
-      top: 100%;
-      left: 0;
-      width: 260px;
-      background: #fff;
-      border-right: 1px solid #ddd;
-      padding: 25px 20px;
-      padding-right: 35px;
-      display: none;
-      flex-direction: column;
-      gap: 22px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-    }
-
-    .section label {
-      font-size: 15px;
-      font-weight: bold;
-      text-transform: uppercase;
-      cursor: pointer;
-    }
-
-    .sub-menu {
-      display: none;
-      flex-direction: column;
-      gap: 8px;
-      margin-top: 8px;
-      padding-left: 12px;
-      border-left: 2px solid #000;
-    }
-
-    .section:hover .sub-menu { display: flex; }
-
-    .sub-menu a {
-      font-size: 14px;
-      font-weight: bold;
-      text-transform: uppercase;
-      color: #000;
-      text-decoration: none;
-    }
-
-    /* CATEGORY TITLE */
-    .category-title {
-      text-align: center;
-      font-size: 32px;
-      font-weight: bold;
-      margin: 40px 0 20px;
-      letter-spacing: 1px;
-    }
-
-.product-grid {
-  display: grid;
-  /* Force exactly 3 columns */
-  grid-template-columns: repeat(3, 1fr); 
-  gap: 30px;
-  padding: 0 40px 60px;
-}
-
-    
-
-.product-card {
-    position: relative; /* For badge positioning */
-}
-
-/* Product Badge Styling */
-.badge {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    background: #000;
-    color: #fff;
-    font-size: 11px;
-    font-weight: bold;
-    padding: 4px 8px;
-    text-transform: uppercase;
-    z-index: 10;
-}
-
-/* Hover Image Effect */
-.product-card .primary-img,
-.product-card .secondary-img {
-    width: 100%;
-    height: 350px;
-    object-fit: cover;
-}
-
-.product-card .secondary-img {
-    display: none;
-}
-
-.product-card:hover .primary-img {
-    display: none;
-}
-
-.product-card:hover .secondary-img {
-    display: block;
-}
-
-/* Hover Preview Overlay (shows full image on product hover) */
-.hover-preview {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  max-width: 80vw;
-  max-height: 80vh;
-  background: rgba(0,0,0,0.85);
-  padding: 12px;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  z-index: 99999;
-  border-radius: 6px;
-  pointer-events: none; /* Don't block hover interactions */
-}
-
-.hover-preview img {
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: contain;
-  display: block;
-}
-
-.hover-preview.show { display: flex; }
-
-
-    .product-info { padding: 15px; }
-
-    .product-name {
-      font-size: 15px;
-      font-weight: bold;
-      margin-bottom: 6px;
-      text-transform: uppercase;
-    }
-
-    .product-price {
-      font-size: 15px;
-      color: #333;
-    }
-
-    /* NEWSLETTER */
-    .newsletter {
-      padding: 60px 20px;
-      text-align: center;
-      border-top: 1px solid #eee;
-    }
-
-    .newsletter input {
-      width: 100%;
-      max-width: 400px;
-      padding: 12px;
-      margin-bottom: 10px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-    }
-
-    .newsletter button {
-      padding: 12px 28px;
-      background: #000;
-      color: #fff;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-
-    /* FOOTER */
-    footer {
-      padding: 40px 20px;
-      background: #f9f9f9;
-      border-top: 1px solid #ddd;
-      font-size: 14px;
-      color: #333;
-    }
-
-    .footer-grid {
-      max-width: 1200px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 25px;
-    }
-
-    .footer-grid h4 {
-      font-weight: bold;
-      margin-bottom: 10px;
-    }
-
-    .footer-bottom {
-      text-align: center;
-      margin-top: 30px;
-      font-size: 13px;
-      color: #666;
-    }
-  </style>
+<link rel="stylesheet" href="men.css">
 </head>
-
 <body>
 
 <!-- HEADER -->
@@ -299,7 +15,6 @@
   <div class="nav-container">
 
     <nav class="main-nav">
-
       <!-- MEN -->
       <div class="dropdown">
         <input type="checkbox" id="men-toggle" class="toggle">
@@ -349,8 +64,6 @@
           </div>
         </div>
       </div>
-
-
 
     </nav>
 
@@ -432,8 +145,39 @@
   </div>
 </footer>
 
+<!-- Hover preview with controls -->
 <div id="hoverPreview" class="hover-preview" aria-hidden="true">
-  <img id="hoverPreviewImg" src="" alt="Product preview" />
+  <button type="button" class="hover-close-btn">✕</button>
+
+  <div class="hover-image-wrapper">
+    <img id="hoverPreviewImg" src="" alt="Product preview" />
+    <div class="hover-price-badge" id="hoverPriceBadge">₱0</div>
+  </div>
+
+  <div class="hover-details">
+    <div class="hover-size-row">
+      <div class="hover-size-label">Size</div>
+      <div class="hover-size-options">
+        <button class="size-chip">S</button>
+        <button class="size-chip">M</button>
+        <button class="size-chip active">L</button>
+        <button class="size-chip">XL</button>
+      </div>
+    </div>
+
+    <div class="hover-qty-row">
+      <div class="hover-qty-label">Quantity</div>
+      <div class="hover-qty-controls">
+        <button class="qty-btn minus">−</button>
+        <span class="qty-value">1</span>
+        <button class="qty-btn plus">+</button>
+      </div>
+    </div>
+
+    <button type="button" class="hover-add-btn">
+      Add to cart
+    </button>
+  </div>
 </div>
 
 <!-- SCRIPT -->
@@ -453,65 +197,67 @@
   const categoryTitle = document.getElementById("categoryTitle");
   const productGrid = document.getElementById("productGrid");
 
-const categories = {
-  shirts: [
-    { img: "img/img/img/men-shirt1.jpg", name: "Enigma 8-Ball", price: "₱299" },
-    { img: "img/img/img/men-shirt2.jpg", name: "Enigma Eyes That Peak", price: "₱299" },
-    { img: "img/img/img/men-shirt3.jpg", name: "Universe", price: "₱299" },
-    { img: "img/img/img/men-shirt4.jpg", name: "Chicago 23", price: "₱399" },
-    { img: "img/img/img/men-shirt5.jpg", name: "Death riot", price: "₱499" },
-    { img: "img/img/img/men-shirt6.jpg", name: "Porche 911", price: "₱299" }
-  ],
-  jackets: [
-    { img: "img/img/img/men-jacket1.jpg", name: "Ferrari", price: "₱899" },
-    { img: "img/img/img/men-jacket2.jpg", name: "Srel", price: "₱999" },
-    { img: "img/img/img/men-jacket3.jpg", name: "Sincere", price: "₱799" },
-    { img: "img/img/img/men-jacket4.jpg", name: "Cartier", price: "₱699" },
-    { img: "img/img/img/men-jacket5.jpg", name: "Tokyo Japan", price: "₱899" },
-    { img: "img/img/img/men-jacket6.jpg", name: "New York", price: "₱749" }
-  ],
-  jeans: [
-    { img: "img/img/img/men-jeans1.jpg", name: "Skull", price: "₱799" },
-    { img: "img/img/img/men-jeans2.jpg", name: "Techwear", price: "₱899" },
-    { img: "img/img/img/men-jeans3.jpg", name: "BAGGY", price: "₱499" },
-    { img: "img/img/img/men-jeans4.jpg", name: "CARGO", price: "₱599" },
-    { img: "img/img/img/men-jeans5.jpg", name: "BLUE JEANS", price: "₱399" },
-    { img: "img/img/img/men-jeans6.jpg", name: "WHITE CARGO", price: "₱499" }
-  ],
-  shoes: [
-    { img: "img/img/img/men-shoes1.jpg", name: "Nike Air Jordan 1 Retro High OG", price: "₱3,495" },
-    { img: "img/img/img/men-shoes2.jpg", name: "Jordan 4 Retro off-white", price: "₱2,995" },
-    { img: "img/img/img/men-shoes3.jpg", name: "Chuck taylor all-star", price: "₱2,495" },
-    { img: "img/img/img/men-shoes4.jpg", name: "Onitsuka tiger", price: "₱4,595" },
-    { img: "img/img/img/men-shoes5.jpg", name: "Black  Puma Speedcat", price: "₱1,995" },
-    { img: "img/img/img/men-shoes6.jpg", name: "ADIDAS SUPERSTAR", price: "₱3,895" }
-  ],
-  bags: [
-    { img: "img/img/img/men-bag1.jpg", name: "CrossBODY bag", price: "₱2,995" },
-    { img: "img/img/img/men-bag2.jpg", name: "louis vuitton", price: "₱3,495" },
-    { img: "img/img/img/men-bag3.jpg", name: "supreme", price: "₱2,495" },
-    { img: "img/img/img/men-bag4.jpg", name: "prada x adidas", price: "₱3,995" },
-    { img: "img/img/img/men-bag5.jpg", name: "nike backpack", price: "₱1,495" },
-    { img: "img/img/img/men-bag6.jpg", name: "bape backpack", price: "₱4,295" }
-  ],
-  jewelry: [
-    { img: "img/img/img/men-accessories1.jpg", name: "Chain Necklace", price: "₱795" },
-    { img: "img/img/img/men-accessories2.jpg", name: "Bracelet", price: "₱695" },
-    { img: "img/img/img/men-accessories3.jpg", name: "watch", price: "₱895" },
-    { img: "img/img/img/men-accessories4.jpg", name: "earring", price: "₱595" },
-    { img: "img/img/img/men-accessories5.jpg", name: "ring", price: "₱1,195" },
-    { img: "img/img/img/men-accessories6.jpg", name: "sun glasses", price: "₱495" }
-  ]
-};
+  const categories = {
+    shirts: [
+      { img: "img/img/img/men-shirt1.jpg", name: "Enigma 8-Ball", price: "₱299" },
+      { img: "img/img/img/men-shirt2.jpg", name: "Enigma Eyes That Peak", price: "₱299" },
+      { img: "img/img/img/men-shirt3.jpg", name: "Universe", price: "₱299" },
+      { img: "img/img/img/men-shirt4.jpg", name: "Chicago 23", price: "₱399" },
+      { img: "img/img/img/men-shirt5.jpg", name: "Death riot", price: "₱499" },
+      { img: "img/img/img/men-shirt6.jpg", name: "Porche 911", price: "₱299" }
+    ],
+    jackets: [
+      { img: "img/img/img/men-jacket1.jpg", name: "Ferrari", price: "₱899" },
+      { img: "img/img/img/men-jacket2.jpg", name: "Srel", price: "₱999" },
+      { img: "img/img/img/men-jacket3.jpg", name: "Sincere", price: "₱799" },
+      { img: "img/img/img/men-jacket4.jpg", name: "Cartier", price: "₱699" },
+      { img: "img/img/img/men-jacket5.jpg", name: "Tokyo Japan", price: "₱899" },
+      { img: "img/img/img/men-jacket6.jpg", name: "New York", price: "₱749" }
+    ],
+    jeans: [
+      { img: "img/img/img/men-jeans1.jpg", name: "Skull", price: "₱799" },
+      { img: "img/img/img/men-jeans2.jpg", name: "Techwear", price: "₱899" },
+      { img: "img/img/img/men-jeans3.jpg", name: "BAGGY", price: "₱499" },
+      { img: "img/img/img/men-jeans4.jpg", name: "CARGO", price: "₱599" },
+      { img: "img/img/img/men-jeans5.jpg", name: "BLUE JEANS", price: "₱399" },
+      { img: "img/img/img/men-jeans6.jpg", name: "WHITE CARGO", price: "₱499" }
+    ],
+    shoes: [
+      { img: "img/img/img/men-shoes1.jpg", name: "Nike Air Jordan 1 Retro High OG", price: "₱3,495" },
+      { img: "img/img/img/men-shoes2.jpg", name: "Jordan 4 Retro off-white", price: "₱2,995" },
+      { img: "img/img/img/men-shoes3.jpg", name: "Chuck taylor all-star", price: "₱2,495" },
+      { img: "img/img/img/men-shoes4.jpg", name: "Onitsuka tiger", price: "₱4,595" },
+      { img: "img/img/img/men-shoes5.jpg", name: "Black  Puma Speedcat", price: "₱1,995" },
+      { img: "img/img/img/men-shoes6.jpg", name: "ADIDAS SUPERSTAR", price: "₱3,895" }
+    ],
+    bags: [
+      { img: "img/img/img/men-bag1.jpg", name: "CrossBODY bag", price: "₱2,995" },
+      { img: "img/img/img/men-bag2.jpg", name: "louis vuitton", price: "₱3,495" },
+      { img: "img/img/img/men-bag3.jpg", name: "supreme", price: "₱2,495" },
+      { img: "img/img/img/men-bag4.jpg", name: "prada x adidas", price: "₱3,995" },
+      { img: "img/img/img/men-bag5.jpg", name: "nike backpack", price: "₱1,495" },
+      { img: "img/img/img/men-bag6.jpg", name: "bape backpack", price: "₱4,295" }
+    ],
+    jewelry: [
+      { img: "img/img/img/men-accessories1.jpg", name: "Chain Necklace", price: "₱795" },
+      { img: "img/img/img/men-accessories2.jpg", name: "Bracelet", price: "₱695" },
+      { img: "img/img/img/men-accessories3.jpg", name: "watch", price: "₱895" },
+      { img: "img/img/img/men-accessories4.jpg", name: "earring", price: "₱595" },
+      { img: "img/img/img/men-accessories5.jpg", name: "ring", price: "₱1,195" },
+      { img: "img/img/img/men-accessories6.jpg", name: "sun glasses", price: "₱495" }
+    ]
+  };
 
   categoryTitle.textContent = category.replace("-", " ").toUpperCase();
 
-const hoverPreview = document.getElementById('hoverPreview');
-const hoverPreviewImg = document.getElementById('hoverPreviewImg');
+  const hoverPreview = document.getElementById('hoverPreview');
+  const hoverPreviewImg = document.getElementById('hoverPreviewImg');
+  const hoverPriceBadge = document.getElementById('hoverPriceBadge');
+  const hoverCloseBtn = document.querySelector('.hover-close-btn');
 
-// Build HTML string for all products first (avoids re-parsing DOM each iteration)
-let html = '';
-categories[category].forEach(item => {
+  // Build HTML string for all products
+  let html = '';
+  categories[category].forEach(item => {
     const badgeHtml = item.isNew ? `<div class="badge">New</div>` : '';
 
     html += `
@@ -525,32 +271,75 @@ categories[category].forEach(item => {
         </div>
       </div>
     `;
-});
+  });
 
-// Render once
-productGrid.innerHTML = html;
+  productGrid.innerHTML = html;
 
-// Attach hover listeners to all cards (stable nodes)
-const cards = productGrid.querySelectorAll('.product-card');
-cards.forEach((card, idx) => {
+  // Attach click listener to all cards
+  const cards = productGrid.querySelectorAll('.product-card');
+  cards.forEach((card, idx) => {
     const item = categories[category][idx];
 
-    card.addEventListener('mouseenter', () => {
-        if (hoverPreview && hoverPreviewImg) {
-            hoverPreviewImg.src = item.img;
-            hoverPreview.classList.add('show');
-            hoverPreview.setAttribute('aria-hidden', 'false');
-        }
+    card.addEventListener('click', () => {
+      if (hoverPreview && hoverPreviewImg && hoverPriceBadge) {
+        hoverPreviewImg.src = item.img;
+        hoverPriceBadge.textContent = item.price;
+        hoverPreview.classList.add('show');
+        hoverPreview.setAttribute('aria-hidden', 'false');
+      }
     });
+  });
 
-    card.addEventListener('mouseleave', () => {
-        if (hoverPreview && hoverPreviewImg) {
-            hoverPreview.classList.remove('show');
-            hoverPreviewImg.src = '';
-            hoverPreview.setAttribute('aria-hidden', 'true');
-        }
+  // Close hover on X button
+  hoverCloseBtn.addEventListener('click', () => {
+    hoverPreview.classList.remove('show');
+    hoverPreviewImg.src = '';
+    hoverPreview.setAttribute('aria-hidden', 'true');
+  });
+
+  /* ----- SIZE SELECT ----- */
+  const sizeChips = document.querySelectorAll('.size-chip');
+  let selectedSize = 'L';
+
+  sizeChips.forEach(chip => {
+    chip.addEventListener('click', () => {
+      sizeChips.forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      selectedSize = chip.textContent.trim();
     });
-});
+  });
+
+  /* ----- QUANTITY CONTROLS ----- */
+  const qtyValue = document.querySelector('.qty-value');
+  const qtyMinus = document.querySelector('.qty-btn.minus');
+  const qtyPlus = document.querySelector('.qty-btn.plus');
+  let quantity = 1;
+
+  function renderQty() {
+    qtyValue.textContent = quantity;
+  }
+
+  qtyMinus.addEventListener('click', () => {
+    if (quantity > 1) {
+      quantity--;
+      renderQty();
+    }
+  });
+
+  qtyPlus.addEventListener('click', () => {
+    quantity++;
+    renderQty();
+  });
+
+  renderQty();
+
+  /* ----- ADD TO CART BUTTON ----- */
+  const addBtn = document.querySelector('.hover-add-btn');
+
+  addBtn.addEventListener('click', () => {
+    alert(`Added to cart:\nSize: ${selectedSize}\nQuantity: ${quantity}`);
+    // Later, real cart logic can be added here.
+  });
 </script>
 
 </body>

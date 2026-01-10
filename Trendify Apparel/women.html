@@ -11,7 +11,7 @@
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, Helvetica, sans-serif; }
     body { background: #fff; }
 
-    /* ---------------- HEADER ---------------- */
+    /* HEADER */
     .navbar {
       position: sticky;
       top: 0;
@@ -48,30 +48,29 @@
       cursor: pointer;
     }
 
-
     /* Active Link Highlighting */
-.main-nav a.active {
-    border-bottom: 2px solid #000;
-    padding-bottom: 2px;
-}
+    .main-nav a.active {
+      border-bottom: 2px solid #000;
+      padding-bottom: 2px;
+    }
 
-/* Dynamic Cart Counter */
-.nav-right a {
-    position: relative;
-}
+    /* Dynamic Cart Counter */
+    .nav-right a {
+      position: relative;
+    }
 
-.cart-count {
-    position: absolute;
-    top: -8px;
-    right: -10px;
-    background: #ff0000;
-    color: #fff;
-    font-size: 10px;
-    font-weight: bold;
-    padding: 2px 5px;
-    border-radius: 50%;
-    display: none; /* Hidden when empty */
-}
+    .cart-count {
+      position: absolute;
+      top: -8px;
+      right: -10px;
+      background: #ff0000;
+      color: #fff;
+      font-size: 10px;
+      font-weight: bold;
+      padding: 2px 5px;
+      border-radius: 50%;
+      display: none;
+    }
 
     .logo {
       width: 70px;
@@ -92,7 +91,7 @@
       cursor: pointer;
     }
 
-    /* ---------------- DROPDOWN ---------------- */
+    /* DROPDOWN */
     .dropdown { position: relative; }
     .toggle { display: none; }
 
@@ -143,7 +142,7 @@
       text-decoration: none;
     }
 
-    /* ---------------- CATEGORY TITLE ---------------- */
+    /* CATEGORY TITLE */
     .category-title {
       text-align: center;
       font-size: 32px;
@@ -152,72 +151,189 @@
       letter-spacing: 1px;
     }
 
-    /* ---------------- PRODUCT GRID ---------------- */
-.product-grid {
-  display: grid;
-  /* Force exactly 3 columns */
-  grid-template-columns: repeat(3, 1fr); 
-  gap: 30px;
-  padding: 0 40px 60px;
+    /* PRODUCT GRID (match men) */
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      column-gap: 0;
+      row-gap: 40px;
+      padding: 0 0 80px;
+    }
+
+    .product-card {
+      position: relative;
+      cursor: pointer;
+    }
+
+    /* Product Badge */
+    .badge {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: #000;
+      color: #fff;
+      font-size: 11px;
+      font-weight: bold;
+      padding: 4px 8px;
+      text-transform: uppercase;
+      z-index: 10;
+    }
+
+    .product-card .primary-img,
+    .product-card .secondary-img {
+      width: 100%;
+      height: 420px;
+      object-fit: cover;
+    }
+
+    .product-card .secondary-img {
+  display: none;          /* keep secondary hidden in grid */
 }
 
-.product-card {
-    position: relative; /* For badge positioning */
-}
+    /* Hover Preview Overlay (white, with details) */
+    .hover-preview {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 700px;
+      max-width: 95vw;
+      background: #ffffff;
+      padding: 28px 30px 30px;
+      display: none;
+      flex-direction: column;
+      gap: 22px;
+      z-index: 99999;
+      border-radius: 18px;
+      color: #000;
+      box-shadow: 0 18px 45px rgba(0,0,0,0.25);
+    }
 
-/* Product Badge Styling */
-.badge {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    background: #000;
-    color: #fff;
-    font-size: 11px;
-    font-weight: bold;
-    padding: 4px 8px;
-    text-transform: uppercase;
-    z-index: 10;
-}
+    .hover-preview.show { display: flex; }
 
-/* Image sizing (no hover swap for women) */
-.product-card .primary-img,
-.product-card .secondary-img {
-    width: 100%;
-    height: 350px;
-    object-fit: cover;
-}
+    .hover-image-wrapper {
+      position: relative;
+    }
 
-/* Keep secondary images hidden; do NOT swap on hover */
-.product-card .secondary-img {
-    display: none;
-}
+    .hover-preview img {
+      width: 100%;
+      max-height: 320px;
+      object-fit: contain;
+      display: block;
+      border-radius: 12px;
+      background: #f4f4f4;
+    }
 
-/* Hover Preview Overlay (shows full image on product hover) */
-.hover-preview {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  max-width: 80vw;
-  max-height: 80vh;
-  background: rgba(0,0,0,0.85);
-  padding: 12px;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  z-index: 99999;
-  border-radius: 6px;
-  pointer-events: none; /* Don't block hover interactions */
-}
+    .hover-price-badge {
+      position: absolute;
+      left: 22px;
+      bottom: 22px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: #000;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+    }
 
-.hover-preview img {
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: contain;
-  display: block;
-}
+    .hover-close-btn {
+      position: absolute;
+      top: 14px;
+      right: 16px;
+      border: none;
+      background: rgba(0,0,0,0.06);
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 16px;
+      line-height: 1;
+    }
 
-.hover-preview.show { display: flex; }
+    .hover-details {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .hover-size-row {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .hover-size-label {
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .hover-size-options {
+      display: flex;
+      gap: 10px;
+    }
+
+    .size-chip {
+      min-width: 46px;
+      padding: 8px 14px;
+      border-radius: 10px;
+      border: 1px solid #555;
+      text-align: center;
+      font-size: 13px;
+      cursor: pointer;
+      background: transparent;
+      color: #000;
+    }
+
+    .size-chip.active {
+      border-color: #000000;
+    }
+
+    .hover-qty-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .hover-qty-label {
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .hover-qty-controls {
+      display: inline-flex;
+      align-items: center;
+      gap: 20px;
+      background: #333;
+      padding: 10px 18px;
+      border-radius: 10px;
+    }
+
+    .qty-btn {
+      font-size: 18px;
+      border: none;
+      background: transparent;
+      color: #fff;
+      cursor: pointer;
+    }
+
+    .qty-value {
+      font-size: 15px;
+      color: #fff;
+    }
+
+    .hover-add-btn {
+      margin-top: 6px;
+      width: 100%;
+      padding: 14px 18px;
+      border-radius: 999px;
+      border: none;
+      background: #000000;
+      color: #fff;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+    }
 
     .product-info {
       padding: 15px;
@@ -235,7 +351,7 @@
       color: #333;
     }
 
-    /* ---------------- NEWSLETTER ---------------- */
+    /* NEWSLETTER */
     .newsletter {
       padding: 60px 20px;
       text-align: center;
@@ -260,7 +376,7 @@
       cursor: pointer;
     }
 
-    /* ---------------- FOOTER ---------------- */
+    /* FOOTER */
     footer {
       padding: 40px 20px;
       background: #f9f9f9;
@@ -301,29 +417,29 @@
 
       <!-- MEN -->
       <div class="dropdown">
-  <input type="checkbox" id="men-toggle" class="toggle">
-  <label for="men-toggle">MEN</label>
+        <input type="checkbox" id="men-toggle" class="toggle">
+        <label for="men-toggle">MEN</label>
 
-  <div class="dropdown-area">
-    <div class="section">
-      <label>CLOTHING</label>
-      <div class="sub-menu">
-        <a href="men.html?category=shirts">SHIRTS</a>
-        <a href="men.html?category=jackets">JACKETS</a>
-        <a href="men.html?category=jeans">JEANS</a>
-      </div>
-    </div>
+        <div class="dropdown-area">
+          <div class="section">
+            <label>CLOTHING</label>
+            <div class="sub-menu">
+              <a href="men.html?category=shirts">SHIRTS</a>
+              <a href="men.html?category=jackets">JACKETS</a>
+              <a href="men.html?category=jeans">JEANS</a>
+            </div>
+          </div>
 
-    <div class="section">
-      <label>ACCESSORIES</label>
-      <div class="sub-menu">
-        <a href="men.html?category=shoes">SHOES</a>
-        <a href="men.html?category=bags">BAGS</a>
-        <a href="men.html?category=jewelry">JEWELRY</a>
+          <div class="section">
+            <label>ACCESSORIES</label>
+            <div class="sub-menu">
+              <a href="men.html?category=shoes">SHOES</a>
+              <a href="men.html?category=bags">BAGS</a>
+              <a href="men.html?category=jewelry">JEWELRY</a>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
-</div>
 
       <!-- WOMEN -->
       <div class="dropdown">
@@ -348,8 +464,6 @@
           </div>
         </div>
       </div>
-
-
 
     </nav>
 
@@ -431,11 +545,42 @@
   </div>
 </footer>
 
+<!-- Hover preview with controls -->
 <div id="hoverPreview" class="hover-preview" aria-hidden="true">
-  <img id="hoverPreviewImg" src="" alt="Product preview" />
+  <button type="button" class="hover-close-btn">✕</button>
+
+  <div class="hover-image-wrapper">
+    <img id="hoverPreviewImg" src="" alt="Product preview" />
+    <div class="hover-price-badge" id="hoverPriceBadge">₱0</div>
+  </div>
+
+  <div class="hover-details">
+    <div class="hover-size-row">
+      <div class="hover-size-label">Size</div>
+      <div class="hover-size-options">
+        <button class="size-chip">S</button>
+        <button class="size-chip">M</button>
+        <button class="size-chip active">L</button>
+        <button class="size-chip">XL</button>
+      </div>
+    </div>
+
+    <div class="hover-qty-row">
+      <div class="hover-qty-label">Quantity</div>
+      <div class="hover-qty-controls">
+        <button class="qty-btn minus">−</button>
+        <span class="qty-value">1</span>
+        <button class="qty-btn plus">+</button>
+      </div>
+    </div>
+
+    <button type="button" class="hover-add-btn">
+      Add to cart
+    </button>
+  </div>
 </div>
 
-<!-- OUTSIDE CLICK SCRIPT -->
+<!-- SCRIPT -->
 <script>
   document.addEventListener("click", function(e) {
     const dropdowns = document.querySelectorAll(".dropdown");
@@ -445,116 +590,157 @@
     });
   });
 
-  /* ---------------- CATEGORY SYSTEM ---------------- */
+  /* CATEGORY SYSTEM */
   const params = new URLSearchParams(window.location.search);
   const category = params.get("category") || "tops";
 
   const categoryTitle = document.getElementById("categoryTitle");
   const productGrid = document.getElementById("productGrid");
 
-  // Fallback: generate a simple SVG placeholder when an image file is missing
-  function setPlaceholder(imgEl, label) {
-    const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600"><rect width="100%" height="100%" fill="#f3f3f3"/><text x="50%" y="50%" font-family="Arial, Helvetica, sans-serif" font-size="28" fill="#333" dominant-baseline="middle" text-anchor="middle">${label}</text></svg>`;
-    imgEl.onerror = null;
-    imgEl.src = 'data:image/svg+xml;utf8,' + encodeURIComponent(svg);
-  }
-
-const categories = {
-  tops: [
-    { img: "img/img/women-top1.jpg", secondaryImg: "img/img/img/women-top2.jpg", name: "Rockmore croptop", price: "₱1,295", isNew: true },
-    { img: "img/img/women-top2.jpg", secondaryImg: "img/women-top3.jpg", name: "Floral Blouse", price: "₱995" },
-    { img: "img/img/women-top3.jpg", secondaryImg: "img/women-top4.jpg", name: "Black Top", price: "₱1,195" },
-    { img: "img/img/women-top4.jpg", secondaryImg: "img/women-top5.jpg", name: "NIrvana", price: "₱1,395" },
-    { img: "img/img/women-top5.jpg", secondaryImg: "img/women-top6.jpg", name: "butterfly", price: "₱1,495" },
-    { img: "img/img/women-top6.jpg", secondaryImg: "img/women-top1.jpg", name: "angels", price: "₱895" }
-  ],
-  dresses: [
-    { img: "img/img/img/women-dress1.jpg", name: "sweetheart long sleeve", price: "₱2,495" },
-    { img: "img/img/img/women-dress2.jpg", name: "brown long sleeve", price: "₱2,995" },
-    { img: "img/img/img/women-dress3.jpg", name: "black dress", price: "₱2,295" },
-    { img: "img/img/img/women-dress4.jpg", name: "red long sleeve dress", price: "₱1,995" },
-    { img: "img/img/img/women-dress5.jpg", name: "blue short sleeve dress", price: "₱3,195" },
-    { img: "img/img/img/women-dress6.jpg", name: "green dress", price: "₱2,495" }
-  ],
-  skirts: [
-    { img: "img/img/img/women-skirts1.jpg", name: "black skirt", price: "₱1,495" },
-    { img: "img/img/img/women-skirts2.jpg", name: "red skirt", price: "₱1,295" },
-    { img: "img/img/img/women-skirts3.jpg", name: "blue skirt", price: "₱1,695" },
-    { img: "img/img/img/women-skirts4.jpg", name: "brown skirt", price: "₱1,895" },
-    { img: "img/img/img/women-skirts5.jpg", name: "cargo skirt", price: "₱1,595" },
-    { img: "img/img/img/women-skirts6.jpg", name: "pink skirt", price: "₱2,195" }
-  ],
-  heels: [
-    { img: "img/img/img/women-heels1.jpg", name: "red heels", price: "₱1,995" },
-    { img: "img/img/img/women-heels2.jpg", name: "black heels", price: "₱1,895" },
-    { img: "img/img/img/women-heels3.jpg", name: "white heels", price: "₱2,195" },
-    { img: "img/img/img/women-heels4.jpg", name: "pink heels", price: "₱2,495" },
-    { img: "img/img/img/women-heels5.jpg", name: "blue heels", price: "₱2,095" },
-    { img: "img/img/img/women-heels6.jpg", name: "green heels", price: "₱1,795" }
-  ],
-  bags: [
-    { img: "img/img/img/women-bags1.jpg", name: "black handbag", price: "₱3,495" },
-    { img: "img/img/img/women-bags2.jpg", name: "white bag", price: "₱2,295" },
-    { img: "img/img/img/women-bags3.jpg", name: "pink bag", price: "₱2,495" },
-    { img: "img/img/img/women-bags4.jpg", name: "green bag", price: "₱1,895" },
-    { img: "img/img/img/women-bags5.jpg", name: "red bag", price: "₱2,995" },
-    { img: "img/img/img/women-bags6.jpg", name: "pink shoulder bag", price: "₱1,595" }
-  ],
-  jewelry: [
-    { img: "img/img/img/women-jewelry1.jpg", name: "flower bracelet", price: "₱795" },
-    { img: "img/img/img/women-jewelry2.jpg", name: "heart bracelet", price: "₱995" },
-    { img: "img/img/img/women-jewelry3.jpg", name: "rose bracelet", price: "₱895" },
-    { img: "img/img/img/women-jewelry4.jpg", name: "gold ring", price: "₱1,195" },
-    { img: "img/img/img/women-jewelry5.jpg", name: "pink earrings", price: "₱695" },
-    { img: "img/img/img/women-jewelry6.jpg", name: "black earrings", price: "₱495" }
-  ]
-};
+  const categories = {
+    tops: [
+      { img: "img/img/women-top1.jpg", secondaryImg: "img/img/women-top2.jpg", name: "Rockmore croptop", price: "₱1,295", isNew: true },
+      { img: "img/img/women-top2.jpg", secondaryImg: "img/img/women-top3.jpg", name: "Floral Blouse", price: "₱995" },
+      { img: "img/img/women-top3.jpg", secondaryImg: "img/img/women-top4.jpg", name: "Black Top", price: "₱1,195" },
+      { img: "img/img/women-top4.jpg", secondaryImg: "img/img/women-top5.jpg", name: "NIrvana", price: "₱1,395" },
+      { img: "img/img/women-top5.jpg", secondaryImg: "img/img/women-top6.jpg", name: "butterfly", price: "₱1,495" },
+      { img: "img/img/women-top6.jpg", secondaryImg: "img/img/women-top1.jpg", name: "angels", price: "₱895" }
+    ],
+    dresses: [
+      { img: "img/img/img/women-dress1.jpg", name: "sweetheart long sleeve", price: "₱2,495" },
+      { img: "img/img/img/women-dress2.jpg", name: "brown long sleeve", price: "₱2,995" },
+      { img: "img/img/img/women-dress3.jpg", name: "black dress", price: "₱2,295" },
+      { img: "img/img/img/women-dress4.jpg", name: "red long sleeve dress", price: "₱1,995" },
+      { img: "img/img/img/women-dress5.jpg", name: "blue short sleeve dress", price: "₱3,195" },
+      { img: "img/img/img/women-dress6.jpg", name: "green dress", price: "₱2,495" }
+    ],
+    skirts: [
+      { img: "img/img/img/women-skirts1.jpg", name: "black skirt", price: "₱1,495" },
+      { img: "img/img/img/women-skirts2.jpg", name: "red skirt", price: "₱1,295" },
+      { img: "img/img/img/women-skirts3.jpg", name: "blue skirt", price: "₱1,695" },
+      { img: "img/img/img/women-skirts4.jpg", name: "brown skirt", price: "₱1,895" },
+      { img: "img/img/img/women-skirts5.jpg", name: "cargo skirt", price: "₱1,595" },
+      { img: "img/img/img/women-skirts6.jpg", name: "pink skirt", price: "₱2,195" }
+    ],
+    heels: [
+      { img: "img/img/img/women-heels1.jpg", name: "red heels", price: "₱1,995" },
+      { img: "img/img/img/women-heels2.jpg", name: "black heels", price: "₱1,895" },
+      { img: "img/img/img/women-heels3.jpg", name: "white heels", price: "₱2,195" },
+      { img: "img/img/img/women-heels4.jpg", name: "pink heels", price: "₱2,495" },
+      { img: "img/img/img/women-heels5.jpg", name: "blue heels", price: "₱2,095" },
+      { img: "img/img/img/women-heels6.jpg", name: "green heels", price: "₱1,795" }
+    ],
+    bags: [
+      { img: "img/img/img/women-bags1.jpg", name: "black handbag", price: "₱3,495" },
+      { img: "img/img/img/women-bags2.jpg", name: "white bag", price: "₱2,295" },
+      { img: "img/img/img/women-bags3.jpg", name: "pink bag", price: "₱2,495" },
+      { img: "img/img/img/women-bags4.jpg", name: "green bag", price: "₱1,895" },
+      { img: "img/img/img/women-bags5.jpg", name: "red bag", price: "₱2,995" },
+      { img: "img/img/img/women-bags6.jpg", name: "pink shoulder bag", price: "₱1,595" }
+    ],
+    jewelry: [
+      { img: "img/img/img/women-jewelry1.jpg", name: "flower bracelet", price: "₱795" },
+      { img: "img/img/img/women-jewelry2.jpg", name: "heart bracelet", price: "₱995" },
+      { img: "img/img/img/women-jewelry3.jpg", name: "rose bracelet", price: "₱895" },
+      { img: "img/img/img/women-jewelry4.jpg", name: "gold ring", price: "₱1,195" },
+      { img: "img/img/img/women-jewelry5.jpg", name: "pink earrings", price: "₱695" },
+      { img: "img/img/img/women-jewelry6.jpg", name: "black earrings", price: "₱495" }
+    ]
+  };
 
   categoryTitle.textContent = category.toUpperCase();
 
-const hoverPreview = document.getElementById('hoverPreview');
-const hoverPreviewImg = document.getElementById('hoverPreviewImg');
+  const hoverPreview = document.getElementById('hoverPreview');
+  const hoverPreviewImg = document.getElementById('hoverPreviewImg');
+  const hoverPriceBadge = document.getElementById('hoverPriceBadge');
+  const hoverCloseBtn = document.querySelector('.hover-close-btn');
 
-// Build HTML once, then attach listeners to avoid DOM reflow issues
+ // Build HTML once, adding data-index
 let html = '';
-categories[category].forEach(item => {
-    const badgeHtml = item.isNew ? `<div class="badge">New</div>` : '';
+categories[category].forEach((item, index) => {
+  const badgeHtml = item.isNew ? `<div class="badge">New</div>` : '';
 
-    html += `
-      <div class="product-card">
-        ${badgeHtml}
-        <img src="${item.img}" class="primary-img">
-        <img src="${item.secondaryImg || item.img}" class="secondary-img">
-        <div class="product-info">
-          <div class="product-name">${item.name}</div>
-          <div class="product-price">${item.price}</div>
-        </div>
+  html += `
+    <div class="product-card" data-index="${index}">
+      ${badgeHtml}
+      <img src="${item.img}" class="primary-img">
+      <img src="${item.secondaryImg || item.img}" class="secondary-img">
+      <div class="product-info">
+        <div class="product-name">${item.name}</div>
+        <div class="product-price">${item.price}</div>
       </div>
-    `;
+    </div>
+  `;
 });
 
 productGrid.innerHTML = html;
 
+// Click to open hover using data-index
 const cards = productGrid.querySelectorAll('.product-card');
-cards.forEach((card, idx) => {
-    const item = categories[category][idx];
+cards.forEach(card => {
+  const index = parseInt(card.getAttribute('data-index'), 10);
+  const item = categories[category][index];
 
-    card.addEventListener('mouseenter', () => {
-        if (hoverPreview && hoverPreviewImg) {
-            hoverPreviewImg.src = item.img;
-            hoverPreview.classList.add('show');
-            hoverPreview.setAttribute('aria-hidden', 'false');
-        }
-    });
-
-    card.addEventListener('mouseleave', () => {
-        if (hoverPreview && hoverPreviewImg) {
-            hoverPreview.classList.remove('show');
-            hoverPreviewImg.src = '';
-            hoverPreview.setAttribute('aria-hidden', 'true');
-        }
-    });
+  card.addEventListener('click', () => {
+    if (hoverPreview && hoverPreviewImg && hoverPriceBadge) {
+      const mainImg = item.secondaryImg || item.img;
+      hoverPreviewImg.src = mainImg;
+      hoverPriceBadge.textContent = item.price;
+      hoverPreview.classList.add('show');
+      hoverPreview.setAttribute('aria-hidden', 'false');
+    }
+  });
 });
+  
+  // Close hover on X
+  hoverCloseBtn.addEventListener('click', () => {
+    hoverPreview.classList.remove('show');
+    hoverPreviewImg.src = '';
+    hoverPreview.setAttribute('aria-hidden', 'true');
+  });
+
+  /* SIZE SELECT */
+  const sizeChips = document.querySelectorAll('.size-chip');
+  let selectedSize = 'L';
+
+  sizeChips.forEach(chip => {
+    chip.addEventListener('click', () => {
+      sizeChips.forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      selectedSize = chip.textContent.trim();
+    });
+  });
+
+  /* QUANTITY CONTROLS */
+  const qtyValue = document.querySelector('.qty-value');
+  const qtyMinus = document.querySelector('.qty-btn.minus');
+  const qtyPlus = document.querySelector('.qty-btn.plus');
+  let quantity = 1;
+
+  function renderQty() {
+    qtyValue.textContent = quantity;
+  }
+
+  qtyMinus.addEventListener('click', () => {
+    if (quantity > 1) {
+      quantity--;
+      renderQty();
+    }
+  });
+
+  qtyPlus.addEventListener('click', () => {
+    quantity++;
+    renderQty();
+  });
+
+  renderQty();
+
+  /* ADD TO CART BUTTON */
+  const addBtn = document.querySelector('.hover-add-btn');
+
+  addBtn.addEventListener('click', () => {
+    alert(`Added to cart:\nSize: ${selectedSize}\nQuantity: ${quantity}`);
+  });
 </script>
 
 </body>
