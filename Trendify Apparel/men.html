@@ -175,6 +175,13 @@
 }
 
 /* Hover Image Effect */
+.product-card .primary-img,
+.product-card .secondary-img {
+    width: 100%;
+    height: 350px;
+    object-fit: cover;
+}
+
 .product-card .secondary-img {
     display: none;
 }
@@ -417,52 +424,52 @@
 
 const categories = {
   shirts: [
-    { img: "img/men-shirt1.jpg", name: "Linen Shirt", price: "₱1,995" },
-    { img: "img/men-shirt2.jpg", name: "Cotton Shirt", price: "₱1,495" },
-    { img: "img/men-shirt3.jpg", name: "Relaxed Fit Shirt", price: "₱1,795" },
-    { img: "img/men-shirt4.jpg", name: "Oxford Shirt", price: "₱1,895" },
-    { img: "img/men-shirt5.jpg", name: "Flannel Check Shirt", price: "₱1,695" },
-    { img: "img/men-shirt6.jpg", name: "Denim Western Shirt", price: "₱2,195" }
+    { img: "img/img/img/men-shirt1.jpg", name: "Enigma 8-Ball", price: "₱299" },
+    { img: "img/img/img/men-shirt2.jpg", name: "Enigma Eyes That Peak", price: "₱299" },
+    { img: "img/img/img/men-shirt3.jpg", name: "Universe", price: "₱299" },
+    { img: "img/img/img/men-shirt4.jpg", name: "Chicago 23", price: "₱399" },
+    { img: "img/img/img/men-shirt5.jpg", name: "Death riot", price: "₱499" },
+    { img: "img/img/img/men-shirt6.jpg", name: "Porche 911", price: "₱299" }
   ],
   jackets: [
-    { img: "img/men-jacket1.jpg", name: "Bomber Jacket", price: "₱3,495" },
-    { img: "img/men-jacket2.jpg", name: "Denim Jacket", price: "₱2,995" },
-    { img: "img/men-jacket3.jpg", name: "Puffer Jacket", price: "₱4,295" },
-    { img: "img/men-jacket4.jpg", name: "Harrington Jacket", price: "₱3,195" },
-    { img: "img/men-jacket5.jpg", name: "Leather Biker Jacket", price: "₱5,995" },
-    { img: "img/men-jacket6.jpg", name: "Windbreaker", price: "₱2,495" }
+    { img: "img/img/img/men-jacket1.jpg", name: "Ferrari", price: "₱899" },
+    { img: "img/img/img/men-jacket2.jpg", name: "Srel", price: "₱999" },
+    { img: "img/img/img/men-jacket3.jpg", name: "Sincere", price: "₱799" },
+    { img: "img/img/img/men-jacket4.jpg", name: "Cartier", price: "₱699" },
+    { img: "img/img/img/men-jacket5.jpg", name: "Tokyo Japan", price: "₱899" },
+    { img: "img/img/img/men-jacket6.jpg", name: "New York", price: "₱749" }
   ],
   jeans: [
-    { img: "img/men-jeans1.jpg", name: "Slim Fit Jeans", price: "₱2,495" },
-    { img: "img/men-jeans2.jpg", name: "Straight Fit Jeans", price: "₱2,295" },
-    { img: "img/men-jeans3.jpg", name: "Tapered Jeans", price: "₱2,595" },
-    { img: "img/men-jeans4.jpg", name: "Loose Fit Jeans", price: "₱2,395" },
-    { img: "img/men-jeans5.jpg", name: "Skinny Fit Jeans", price: "₱2,195" },
-    { img: "img/men-jeans6.jpg", name: "Carpenter Jeans", price: "₱2,795" }
+    { img: "img/img/img/men-jeans1.jpg", name: "Skull", price: "₱799" },
+    { img: "img/img/img/men-jeans2.jpg", name: "Techwear", price: "₱899" },
+    { img: "img/img/img/men-jeans3.jpg", name: "BAGGY", price: "₱499" },
+    { img: "img/img/img/men-jeans4.jpg", name: "CARGO", price: "₱599" },
+    { img: "img/img/img/men-jeans5.jpg", name: "BLUE JEANS", price: "₱399" },
+    { img: "img/img/img/men-jeans6.jpg", name: "WHITE CARGO", price: "₱499" }
   ],
   shoes: [
-    { img: "img/men-shoes1.jpg", name: "Leather Sneakers", price: "₱3,495" },
-    { img: "img/men-shoes2.jpg", name: "Running Shoes", price: "₱2,995" },
-    { img: "img/men-shoes3.jpg", name: "Slip-on Shoes", price: "₱2,495" },
-    { img: "img/men-shoes4.jpg", name: "Chelsea Boots", price: "₱4,595" },
-    { img: "img/men-shoes5.jpg", name: "Canvas High-tops", price: "₱1,995" },
-    { img: "img/men-shoes6.jpg", name: "Suede Loafers", price: "₱3,895" }
+    { img: "img/img/img/men-shoes1.jpg", name: "Nike Air Jordan 1 Retro High OG", price: "₱3,495" },
+    { img: "img/img/img/men-shoes2.jpg", name: "Jordan 4 Retro off-white", price: "₱2,995" },
+    { img: "img/img/img/men-shoes3.jpg", name: "Chuck taylor all-star", price: "₱2,495" },
+    { img: "img/img/img/men-shoes4.jpg", name: "Onitsuka tiger", price: "₱4,595" },
+    { img: "img/img/img/men-shoes5.jpg", name: "Black  Puma Speedcat", price: "₱1,995" },
+    { img: "img/img/img/men-shoes6.jpg", name: "ADIDAS SUPERSTAR", price: "₱3,895" }
   ],
   bags: [
-    { img: "img/men-bag1.jpg", name: "Messenger Bag", price: "₱2,995" },
-    { img: "img/men-bag2.jpg", name: "Backpack", price: "₱3,495" },
-    { img: "img/men-bag3.jpg", name: "Crossbody Bag", price: "₱2,495" },
-    { img: "img/men-bag4.jpg", name: "Duffle Bag", price: "₱3,995" },
-    { img: "img/men-bag5.jpg", name: "Tote Bag", price: "₱1,495" },
-    { img: "img/men-bag6.jpg", name: "Briefcase", price: "₱4,295" }
+    { img: "img/img/img/men-bag1.jpg", name: "CrossBODY bag", price: "₱2,995" },
+    { img: "img/img/img/men-bag2.jpg", name: "louis vuitton", price: "₱3,495" },
+    { img: "img/img/img/men-bag3.jpg", name: "supreme", price: "₱2,495" },
+    { img: "img/img/img/men-bag4.jpg", name: "prada x adidas", price: "₱3,995" },
+    { img: "img/img/img/men-bag5.jpg", name: "nike backpack", price: "₱1,495" },
+    { img: "img/img/img/men-bag6.jpg", name: "bape backpack", price: "₱4,295" }
   ],
   jewelry: [
-    { img: "img/men-jewel1.jpg", name: "Chain Necklace", price: "₱795" },
-    { img: "img/men-jewel2.jpg", name: "Bracelet", price: "₱695" },
-    { img: "img/men-jewel3.jpg", name: "Ring Set", price: "₱895" },
-    { img: "img/men-jewel4.jpg", name: "Signet Ring", price: "₱595" },
-    { img: "img/men-jewel5.jpg", name: "Cufflinks", price: "₱1,195" },
-    { img: "img/men-jewel6.jpg", name: "Leather Cord Necklace", price: "₱495" }
+    { img: "img/img/img/men-accessories1.jpg", name: "Chain Necklace", price: "₱795" },
+    { img: "img/img/img/men-accessories2.jpg", name: "Bracelet", price: "₱695" },
+    { img: "img/img/img/men-accessories3.jpg", name: "watch", price: "₱895" },
+    { img: "img/img/img/men-accessories4.jpg", name: "earring", price: "₱595" },
+    { img: "img/img/img/men-accessories5.jpg", name: "ring", price: "₱1,195" },
+    { img: "img/img/img/men-accessories6.jpg", name: "sun glasses", price: "₱495" }
   ]
 };
 
