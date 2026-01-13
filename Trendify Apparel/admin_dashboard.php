@@ -1,3 +1,6 @@
+<?php
+// Admin dashboard converted from static HTML to PHP to use the PHP peso symbol
+?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -50,7 +53,7 @@
       <section class="cards">
         <div class="card">
           <div style="color:var(--muted);font-size:12px">Total Sales</div>
-          <div class="value">₱12,430</div>
+          <div class="value"><?= '₱' ?>12,430</div>
         </div>
         <div class="card">
           <div style="color:var(--muted);font-size:12px">Orders</div>
@@ -73,10 +76,10 @@
             <tr><th>Order</th><th>Customer</th><th>Status</th><th>Total</th></tr>
           </thead>
           <tbody>
-            <tr><td>#1024</td><td>Sarah J.</td><td>Shipped</td><td>₱89.00</td></tr>
-            <tr><td>#1023</td><td>Mark D.</td><td>Processing</td><td>₱45.50</td></tr>
-            <tr><td>#1022</td><td>Lina W.</td><td>Delivered</td><td>₱120.00</td></tr>
-            <tr><td>#1021</td><td>Tom R.</td><td>Cancelled</td><td>₱0.00</td></tr>
+            <tr><td>#1024</td><td>Sarah J.</td><td>Shipped</td><td><?= '₱' ?>89.00</td></tr>
+            <tr><td>#1023</td><td>Mark D.</td><td>Processing</td><td><?= '₱' ?>45.50</td></tr>
+            <tr><td>#1022</td><td>Lina W.</td><td>Delivered</td><td><?= '₱' ?>120.00</td></tr>
+            <tr><td>#1021</td><td>Tom R.</td><td>Cancelled</td><td><?= '₱' ?>0.00</td></tr>
           </tbody>
         </table>
       </section>
@@ -84,9 +87,9 @@
       <section style="margin-top:18px">
         <h2 style="margin:0 0 12px 0;font-size:16px">Top Products</h2>
         <div class="products">
-          <div class="prod"><img src="img/img/img/men-shirt6.jpg" alt="p"><div><div style="font-weight:600">porche 911</div><div style="color:var(--muted);font-size:13px">₱24.00 • 120 sold</div></div></div>
-          <div class="prod"><img src="img/img/women-top3.jpg" alt="p"><div><div style="font-weight:600">black top</div><div style="color:var(--muted);font-size:13px">₱48.00 • 90 sold</div></div></div>
-          <div class="prod"><img src="img/img/img/men-shoes1.jpg" alt="p"><div><div style="font-weight:600">Nike Air Jordan 1 Retro High OG</div><div style="color:var(--muted);font-size:13px">₱65.00 • 75 sold</div></div></div>
+          <div class="prod"><img src="img/img/img/men-shirt6.jpg" alt="p"><div><div style="font-weight:600">porche 911</div><div style="color:var(--muted);font-size:13px"><?= '₱' ?>24.00 • 120 sold</div></div></div>
+          <div class="prod"><img src="img/img/women-top3.jpg" alt="p"><div><div style="font-weight:600">black top</div><div style="color:var(--muted);font-size:13px"><?= '₱' ?>48.00 • 90 sold</div></div></div>
+          <div class="prod"><img src="img/img/img/men-shoes1.jpg" alt="p"><div><div style="font-weight:600">Nike Air Jordan 1 Retro High OG</div><div style="color:var(--muted);font-size:13px"><?= '₱' ?>65.00 • 75 sold</div></div></div>
         </div>
       </section>
 
