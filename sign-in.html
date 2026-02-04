@@ -224,6 +224,36 @@
             text-decoration: underline;
             cursor: pointer;
         }
+
+        .password-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .password-wrapper input {
+            flex: 1;
+            padding-right: 40px;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 12px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #666;
+            font-size: 18px;
+            padding: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: color 0.2s;
+        }
+
+        .toggle-password:hover {
+            color: #000;
+        }
     </style>
 </head>
 
@@ -313,7 +343,12 @@
 
     <form class="signin-form">
         <input type="email" placeholder="E-mail" />
-        <input type="password" placeholder="Password" />
+        <div class="password-wrapper">
+            <input type="password" id="password-input" placeholder="Password" />
+            <button type="button" class="toggle-password" id="toggle-pwd" onclick="togglePasswordVisibility()" title="Show/Hide Password">
+                <i class="fa-regular fa-eye"></i>
+            </button>
+        </div>
 
         <div class="stay">
             <input type="checkbox" id="stay-signed" />
@@ -340,7 +375,28 @@
                 toggle.checked = false;
             }
         });
-    });
+// Toggle password visibility
+function togglePasswordVisibility() {
+    const passwordInput = document.getElementById('password-input');
+    const toggleBtn = document.getElementById('toggle-pwd');
+    const icon = toggleBtn.querySelector('i');
+    const currentValue = passwordInput.value;  // Save the value
+    
+    if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        passwordInput.value = currentValue;  // Restore the value
+        icon.classList.remove('fa-eye');
+        icon.classList.add('fa-eye-slash');
+        passwordInput.focus();
+    } else {
+        passwordInput.type = 'password';
+        passwordInput.value = currentValue;  // Restore the value
+        icon.classList.remove('fa-eye-slash');
+        icon.classList.add('fa-eye');
+        passwordInput.focus();
+    }
+}
+
 // Lockout timer management
 function checkAccountLockout(email) {
     const lockoutKey = `lockout_${email}`;
@@ -403,7 +459,7 @@ document.querySelector('.signin-form').addEventListener('submit', async function
     e.preventDefault();
     
     const email = document.querySelector('input[type="email"]').value;
-    const password = document.querySelector('input[type="password"]').value;
+    const password = document.getElementById('password-input').value;
     const signInBtn = document.querySelector('.black-btn');
     
     // Do not block submission based on localStorage lockout alone.
