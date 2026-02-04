@@ -55,18 +55,14 @@ if ($lock_result->num_rows > 0) {
             $rs->bind_param("s", $email);
             $rs->execute();
             $rs->close();
-            $is_locked = false;  // Clear flag so login can proceed
         }
     }
 }
 $lock_stmt->close();
 
-if ($is_locked) {
-    $time_left = min($time_left, 10); // Cap at 10 seconds
-    // Return raw seconds_left so the client can render a live countdown
-    echo json_encode(['success' => false, 'message' => 'Account locked. Try again in ' . $time_left . ' seconds', 'seconds_left' => (int)$time_left]);
-    exit;
-}
+// NOTE: Do not immediately exit on lock here — fetch the user first and
+// allow successful password verification to clear the lock. For incorrect
+// passwords, respect the lock and return the remaining seconds.
 
 $sql = "SELECT user_id, email, password_hash, first_name, last_name, is_admin, role FROM users WHERE email = ?";
 $stmt = $conn->prepare($sql);

@@ -189,6 +189,36 @@
       margin-bottom: 10px;
       display: none;
     }
+
+    /* PASSWORD TOGGLE */
+    .password-container {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .password-container input {
+      width: 100%;
+      padding-right: 40px;
+    }
+
+    .toggle-password {
+      position: absolute;
+      right: 12px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 18px;
+      color: #666;
+      padding: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .toggle-password:hover {
+      color: #000;
+    }
   </style>
 </head>
 
@@ -268,8 +298,18 @@
   <form class="signin-form" id="signupForm">
     <input type="text" id="fullName" placeholder="Full name" required />
     <input type="email" id="email" placeholder="E-mail" required />
-    <input type="password" id="password" placeholder="Password" required minlength="6" />
-    <input type="password" id="confirm" placeholder="Confirm password" required minlength="6" />
+    <div class="password-container">
+      <input type="password" id="password" placeholder="Password" required minlength="6" />
+      <button type="button" class="toggle-password" id="togglePassword">
+        <i class="fas fa-eye"></i>
+      </button>
+    </div>
+    <div class="password-container">
+      <input type="password" id="confirm" placeholder="Confirm password" required minlength="6" />
+      <button type="button" class="toggle-password" id="toggleConfirm">
+        <i class="fas fa-eye"></i>
+      </button>
+    </div>
 
     <p class="helper-text">Password must be at least 6 characters.</p>
 
@@ -376,6 +416,42 @@
       showError('Connection error. Please make sure XAMPP is running.');
       submitBtn.disabled = false;
       submitBtn.textContent = 'CREATE ACCOUNT';
+    }
+  });
+
+  // PASSWORD TOGGLE FUNCTIONALITY
+  const togglePasswordBtn = document.getElementById('togglePassword');
+  const toggleConfirmBtn = document.getElementById('toggleConfirm');
+  const passwordInput = document.getElementById('password');
+  const confirmInput = document.getElementById('confirm');
+
+  togglePasswordBtn.addEventListener('click', function(e) {
+    e.preventDefault();
+    const icon = togglePasswordBtn.querySelector('i');
+    
+    if (passwordInput.type === 'password') {
+      passwordInput.type = 'text';
+      icon.classList.remove('fa-eye');
+      icon.classList.add('fa-eye-slash');
+    } else {
+      passwordInput.type = 'password';
+      icon.classList.remove('fa-eye-slash');
+      icon.classList.add('fa-eye');
+    }
+  });
+
+  toggleConfirmBtn.addEventListener('click', function(e) {
+    e.preventDefault();
+    const icon = toggleConfirmBtn.querySelector('i');
+    
+    if (confirmInput.type === 'password') {
+      confirmInput.type = 'text';
+      icon.classList.remove('fa-eye');
+      icon.classList.add('fa-eye-slash');
+    } else {
+      confirmInput.type = 'password';
+      icon.classList.remove('fa-eye-slash');
+      icon.classList.add('fa-eye');
     }
   });
 </script>
