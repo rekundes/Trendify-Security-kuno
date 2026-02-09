@@ -1,28 +1,25 @@
 <?php
 header('Content-Type: application/json');
 require_once 'config.php';
+require_once 'security_helpers.php';
 
 // Get JSON input
 $input = json_decode(file_get_contents('php://input'), true);
 
-$email = isset($input['email']) ? trim($input['email']) : '';
-$password = isset($input['password']) ? $input['password'] : '';
-$first_name = isset($input['first_name']) ? trim($input['first_name']) : '';
-$last_name = isset($input['last_name']) ? trim($input['last_name']) : '';
+ $email = isset($input['email']) ? $input['email'] : '';
+ $password = isset($input['password']) ? $input['password'] : '';
+ $first_name = isset($input['first_name']) ? $input['first_name'] : '';
+ $last_name = isset($input['last_name']) ? $input['last_name'] : '';
+
+// Validate inputs
+ $email = validate_email($email);
+ $password = validate_password($password, 8, 128);
+ $first_name = validate_string($first_name, 100) ?: '';
+ $last_name = validate_string($last_name, 100) ?: '';
 
 // Validate input
-if (empty($email) || empty($password)) {
-    echo json_encode(['success' => false, 'message' => 'Email and password are required']);
-    exit;
-}
-
-if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-    echo json_encode(['success' => false, 'message' => 'Invalid email format']);
-    exit;
-}
-
-if (strlen($password) < 6) {
-    echo json_encode(['success' => false, 'message' => 'Password must be at least 6 characters']);
+if ($email === false || $password === false) {
+    echo json_encode(['success' => false, 'message' => 'Email and password are required or invalid']);
     exit;
 }
 
@@ -41,8 +38,8 @@ if ($check_result->num_rows > 0) {
 }
 $check_stmt->close();
 
-// Hash password
-$password_hash = password_hash($password, PASSWORD_DEFAULT);
+// Hash password using helper
+$password_hash = hash_password($password);
 
 // Insert new user
 $insert_sql = "INSERT INTO users (email, password_hash, first_name, last_name) VALUES (?, ?, ?, ?)";
@@ -52,10 +49,12 @@ $insert_stmt->bind_param("ssss", $email, $password_hash, $first_name, $last_name
 if ($insert_stmt->execute()) {
     $user_id = $insert_stmt->insert_id;
     
-    // Set session variables
+    // Set session variables and harden session
+    session_regenerate_id(true);
     $_SESSION['user_id'] = $user_id;
     $_SESSION['email'] = $email;
     $_SESSION['first_name'] = $first_name;
+    session_touch();
     
     echo json_encode([
         'success' => true, 

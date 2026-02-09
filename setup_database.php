@@ -10,6 +10,8 @@ $users_sql = "CREATE TABLE IF NOT EXISTS users (
     last_name VARCHAR(100),
     is_admin TINYINT DEFAULT 0,
     role ENUM('customer', 'admin', 'superadmin') DEFAULT 'customer',
+    reset_token VARCHAR(255),
+    reset_token_expiry DATETIME,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 )";
@@ -22,6 +24,17 @@ if ($check_role && $check_role->num_rows === 0) {
         echo "✓ Added role column to users table<br>";
     } else {
         echo "Note: Role column already exists or couldn't be added<br>";
+    }
+}
+
+// Check if reset_token columns exist, if not add them
+$check_reset = $conn->query("SHOW COLUMNS FROM users WHERE Field = 'reset_token'");
+if ($check_reset && $check_reset->num_rows === 0) {
+    $add_reset = "ALTER TABLE users ADD COLUMN reset_token VARCHAR(255) AFTER role, ADD COLUMN reset_token_expiry DATETIME AFTER reset_token";
+    if ($conn->query($add_reset)) {
+        echo "✓ Added reset token columns to users table<br>";
+    } else {
+        echo "Note: Reset token columns already exist or couldn't be added<br>";
     }
 }
 
