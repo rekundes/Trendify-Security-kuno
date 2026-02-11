@@ -122,7 +122,6 @@ if ($result && $result->num_rows > 0) {
             <tr>
               <th>Name</th>
               <th>Email</th>
-              <th>Role</th>
               <th>Joined</th>
               <th>Actions</th>
             </tr>
@@ -132,7 +131,6 @@ if ($result && $result->num_rows > 0) {
             <tr>
               <td><?= htmlspecialchars($user['first_name'] . ' ' . $user['last_name']) ?></td>
               <td><?= htmlspecialchars($user['email']) ?></td>
-              <td><span class="badge <?= $user['role'] ?>"><?= htmlspecialchars($user['role']) ?></span></td>
               <td><?= date('M d, Y', strtotime($user['created_at'])) ?></td>
               <td>
                 <div class="actions">

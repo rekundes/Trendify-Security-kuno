@@ -9,17 +9,46 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'superadmin') {
 
 $admin_name = ($_SESSION['first_name'] ?? 'Superadmin') . ' ' . ($_SESSION['last_name'] ?? '');
 
+// Handle order completion
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['complete_order_id'])) {
+    $order_id = intval($_POST['complete_order_id']);
+    $update_sql = "UPDATE orders SET status = 'Delivered' WHERE order_id = ?";
+    $stmt = $conn->prepare($update_sql);
+    if ($stmt) {
+        $stmt->bind_param('i', $order_id);
+        $stmt->execute();
+        $stmt->close();
+    }
+    header('Location: superadmin_dashboard.php');
+    exit;
+}
+
+// Handle not delivered
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['not_delivered_id'])) {
+    $order_id = intval($_POST['not_delivered_id']);
+    $update_sql = "UPDATE orders SET status = 'Processing' WHERE order_id = ?";
+    $stmt = $conn->prepare($update_sql);
+    if ($stmt) {
+        $stmt->bind_param('i', $order_id);
+        $stmt->execute();
+        $stmt->close();
+    }
+    header('Location: superadmin_dashboard.php');
+    exit;
+}
+
 // Get statistics from database
-$total_sales = $conn->query("SELECT SUM(total_amount) as total FROM orders")->fetch_assoc()['total'] ?? 0;
+$total_sales = $conn->query("SELECT SUM(total_amount) as total FROM orders WHERE status = 'Delivered'")->fetch_assoc()['total'] ?? 0;
 $total_orders = $conn->query("SELECT COUNT(*) as count FROM orders")->fetch_assoc()['count'] ?? 0;
 $total_customers = $conn->query("SELECT COUNT(*) as count FROM users WHERE role = 'customer'")->fetch_assoc()['count'] ?? 0;
 $total_admins = $conn->query("SELECT COUNT(*) as count FROM users WHERE role IN ('admin', 'superadmin')")->fetch_assoc()['count'] ?? 0;
-$total_products = $conn->query("SELECT COUNT(*) as count FROM products")->fetch_assoc()['count'] ?? 0;
+$total_products = 72;
 
 // Get recent orders
 $recent_orders = [];
 $orders_sql = "SELECT o.order_id, o.order_date, o.status, o.total_amount, 
-                      o.first_name, o.last_name
+                      o.first_name, o.last_name,
+                      DATE_ADD(o.order_date, INTERVAL 7 DAY) as estimated_delivery
                FROM orders o
                ORDER BY o.order_id DESC LIMIT 5";
 $result = $conn->query($orders_sql);
@@ -142,6 +171,7 @@ if ($result && $result->num_rows > 0) {
         <section class="section">
           <div class="section-title">Recent Orders</div>
           <?php if (count($recent_orders) > 0): ?>
+          <form method="POST">
           <table>
             <thead>
               <tr>
@@ -149,21 +179,32 @@ if ($result && $result->num_rows > 0) {
                 <th>Customer</th>
                 <th>Amount</th>
                 <th>Status</th>
-                <th>Date</th>
+                <th>Est. Delivery</th>
+                <th>Action</th>
               </tr>
             </thead>
             <tbody>
               <?php foreach ($recent_orders as $order): ?>
+              <?php 
+                $delivery_date = strtotime($order['estimated_delivery']);
+                $today = strtotime(date('Y-m-d'));
+                $is_past_due = $delivery_date < $today && strtolower($order['status']) !== 'delivered';
+              ?>
               <tr>
                 <td>#<?= htmlspecialchars($order['order_id']) ?></td>
                 <td><?= htmlspecialchars($order['first_name'] . ' ' . $order['last_name']) ?></td>
                 <td>₱<?= number_format($order['total_amount'], 2) ?></td>
                 <td><span class="badge" style="background:#dbeafe;color:#1e3a8a"><?= htmlspecialchars($order['status']) ?></span></td>
-                <td><?= date('M d, Y', strtotime($order['order_date'])) ?></td>
+                <td><?= isset($order['estimated_delivery']) ? date('M d, Y', strtotime($order['estimated_delivery'])) : 'N/A' ?></td>
+                <td>
+                  <button type="submit" name="complete_order_id" value="<?= htmlspecialchars($order['order_id']) ?>" style="background:#10b981;color:#fff;border:none;padding:6px 10px;border-radius:4px;cursor:pointer;font-size:12px;margin-right:4px">Delivered</button>
+                  <button type="submit" name="not_delivered_id" value="<?= htmlspecialchars($order['order_id']) ?>" style="background:#ef4444;color:#fff;border:none;padding:6px 10px;border-radius:4px;cursor:pointer;font-size:12px">Not Delivered</button>
+                </td>
               </tr>
               <?php endforeach; ?>
             </tbody>
           </table>
+          </form>
           <?php else: ?>
           <div class="empty-state">No orders yet</div>
           <?php endif; ?>

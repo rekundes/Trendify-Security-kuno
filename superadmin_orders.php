@@ -9,6 +9,34 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'superadmin') {
 
 $admin_name = ($_SESSION['first_name'] ?? 'Superadmin') . ' ' . ($_SESSION['last_name'] ?? '');
 
+// Handle order completion
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['complete_order_id'])) {
+    $order_id = intval($_POST['complete_order_id']);
+    $update_sql = "UPDATE orders SET status = 'Delivered' WHERE order_id = ?";
+    $stmt = $conn->prepare($update_sql);
+    if ($stmt) {
+        $stmt->bind_param('i', $order_id);
+        $stmt->execute();
+        $stmt->close();
+    }
+    header('Location: superadmin_orders.php');
+    exit;
+}
+
+// Handle not delivered
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['not_delivered_id'])) {
+    $order_id = intval($_POST['not_delivered_id']);
+    $update_sql = "UPDATE orders SET status = 'Processing' WHERE order_id = ?";
+    $stmt = $conn->prepare($update_sql);
+    if ($stmt) {
+        $stmt->bind_param('i', $order_id);
+        $stmt->execute();
+        $stmt->close();
+    }
+    header('Location: superadmin_orders.php');
+    exit;
+}
+
 // Get all orders with filtering
 $status_filter = isset($_GET['status']) ? $_GET['status'] : '';
 $where_clause = '';
@@ -112,6 +140,7 @@ if ($result && $result->num_rows > 0) {
 
       <section class="section">
         <?php if (count($orders) > 0): ?>
+        <form method="POST">
         <table>
           <thead>
             <tr>
@@ -133,13 +162,29 @@ if ($result && $result->num_rows > 0) {
               <td><?= htmlspecialchars($order['email']) ?></td>
               <td><?= $order['item_count'] . ' item' . ($order['item_count'] != 1 ? 's' : '') ?></td>
               <td>₱<?= number_format($order['total_amount'], 2) ?></td>
-              <td><span class="badge <?= strtolower($order['status']) ?>"><?= htmlspecialchars($order['status']) ?></span></td>
+              <td>
+                <?php
+                $status = htmlspecialchars($order['status']);
+                $badge_styles = [
+                  'Processing' => 'display:inline-block;padding:6px 10px;border-radius:4px;font-size:12px;font-weight:600;background:#fef3c7;color:#92400e',
+                  'Shipped' => 'display:inline-block;padding:6px 10px;border-radius:4px;font-size:12px;font-weight:600;background:#dbeafe;color:#0284c7',
+                  'Delivered' => 'display:inline-block;padding:6px 10px;border-radius:4px;font-size:12px;font-weight:600;background:#dcfce7;color:#166534',
+                  'Cancelled' => 'display:inline-block;padding:6px 10px;border-radius:4px;font-size:12px;font-weight:600;background:#fee2e2;color:#dc2626'
+                ];
+                $style = $badge_styles[$status] ?? 'display:inline-block;padding:6px 10px;border-radius:4px;font-size:12px;font-weight:600;background:#f3f4f6;color:#374151';
+                ?>
+                <span style="<?= $style ?>"><?= $status ?></span>
+              </td>
               <td><?= date('M d, Y', strtotime($order['order_date'])) ?></td>
-              <td><a href="admin_orders.php" style="color:#3b82f6;text-decoration:none">View</a></td>
+              <td>
+                <button type="submit" name="complete_order_id" value="<?= htmlspecialchars($order['order_id']) ?>" style="background:#10b981;color:#fff;border:none;padding:6px 10px;border-radius:4px;cursor:pointer;font-size:12px;margin-right:4px">Delivered</button>
+                <button type="submit" name="not_delivered_id" value="<?= htmlspecialchars($order['order_id']) ?>" style="background:#ef4444;color:#fff;border:none;padding:6px 10px;border-radius:4px;cursor:pointer;font-size:12px">Not Delivered</button>
+              </td>
             </tr>
             <?php endforeach; ?>
-          </tbody>
+        </tbody>
         </table>
+        </form>
 
         <?php if ($total_pages > 1): ?>
         <div class="pagination">

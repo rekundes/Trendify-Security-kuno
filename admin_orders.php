@@ -9,6 +9,34 @@ if (!isset($_SESSION['user_id']) || !isset($_SESSION['is_admin']) || $_SESSION['
 
 $admin_name = ($_SESSION['first_name'] ?? 'Admin') . ' ' . ($_SESSION['last_name'] ?? '');
 
+// Handle order completion
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['complete_order_id'])) {
+    $order_id = intval($_POST['complete_order_id']);
+    $update_sql = "UPDATE orders SET status = 'Delivered' WHERE order_id = ?";
+    $stmt = $conn->prepare($update_sql);
+    if ($stmt) {
+        $stmt->bind_param('i', $order_id);
+        $stmt->execute();
+        $stmt->close();
+    }
+    header('Location: admin_orders.php');
+    exit;
+}
+
+// Handle not delivered
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['not_delivered_id'])) {
+    $order_id = intval($_POST['not_delivered_id']);
+    $update_sql = "UPDATE orders SET status = 'Processing' WHERE order_id = ?";
+    $stmt = $conn->prepare($update_sql);
+    if ($stmt) {
+        $stmt->bind_param('i', $order_id);
+        $stmt->execute();
+        $stmt->close();
+    }
+    header('Location: admin_orders.php');
+    exit;
+}
+
 // Get all orders with user info
 $sql = "SELECT o.order_id, o.user_id, o.order_date, o.status, o.total_amount, 
                u.first_name, u.last_name, u.email
@@ -117,6 +145,7 @@ foreach ($orders as $order) {
       <div class="table-container">
         <h2 style="margin:0 0 16px 0;font-size:18px">All Orders</h2>
         <?php if (count($orders) > 0): ?>
+          <form method="POST">
           <table>
             <thead>
               <tr>
@@ -137,18 +166,28 @@ foreach ($orders as $order) {
                   <td><?= htmlspecialchars($order['email'] ?? 'N/A') ?></td>
                   <td>₱<?= number_format($order['total_amount'] ?? 0, 2) ?></td>
                   <td>
-                    <span class="badge badge-<?= strtolower($order['status'] ?? 'pending') ?>">
-                      <?= htmlspecialchars($order['status'] ?? 'Pending') ?>
-                    </span>
+                    <?php
+                    $status = htmlspecialchars($order['status'] ?? 'Processing');
+                    $badge_styles = [
+                      'Processing' => 'display:inline-block;padding:6px 10px;border-radius:4px;font-size:12px;font-weight:600;background:#fef3c7;color:#92400e',
+                      'Shipped' => 'display:inline-block;padding:6px 10px;border-radius:4px;font-size:12px;font-weight:600;background:#dbeafe;color:#0284c7',
+                      'Delivered' => 'display:inline-block;padding:6px 10px;border-radius:4px;font-size:12px;font-weight:600;background:#dcfce7;color:#166534',
+                      'Cancelled' => 'display:inline-block;padding:6px 10px;border-radius:4px;font-size:12px;font-weight:600;background:#fee2e2;color:#dc2626'
+                    ];
+                    $style = $badge_styles[$status] ?? 'display:inline-block;padding:6px 10px;border-radius:4px;font-size:12px;font-weight:600;background:#f3f4f6;color:#374151';
+                    ?>
+                    <span style="<?= $style ?>"><?= $status ?></span>
                   </td>
                   <td><?= date('M d, Y H:i', strtotime($order['order_date'] ?? 'now')) ?></td>
                   <td>
-                    <button class="delete-btn" onclick="deleteOrder(<?= $order['order_id'] ?>)" style="padding:6px 12px;background:#ef4444;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:12px;font-weight:600">Remove</button>
+                    <button type="submit" name="complete_order_id" value="<?= htmlspecialchars($order['order_id']) ?>" style="background:#10b981;color:#fff;border:none;padding:6px 10px;border-radius:4px;cursor:pointer;font-size:12px;margin-right:4px">Delivered</button>
+                    <button type="submit" name="not_delivered_id" value="<?= htmlspecialchars($order['order_id']) ?>" style="background:#ef4444;color:#fff;border:none;padding:6px 10px;border-radius:4px;cursor:pointer;font-size:12px">Not Delivered</button>
                   </td>
                 </tr>
               <?php endforeach; ?>
             </tbody>
           </table>
+          </form>
         <?php else: ?>
           <p style="text-align:center;color:var(--muted);padding:20px">No orders found</p>
         <?php endif; ?>
