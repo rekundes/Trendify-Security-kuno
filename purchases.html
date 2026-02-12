@@ -100,9 +100,7 @@
                     (order.items || []).forEach(it => {
                         const itEl = document.createElement('div');
                         itEl.className = 'item';
-                        itEl.innerHTML = `<div class="item-left">${escapeHtml(it.product_name)}<div class="muted" style="font-size:12px">Size: ${escapeHtml(it.product_size || '-') } • Qty: ${it.quantity}</div></div>
-                                <div style="text-align:right">
-                                    <div class="item-right">₱${parseFloat(it.price).toFixed(2)}</div>`;
+                        itEl.innerHTML = `<div class="item-left">${escapeHtml(it.product_name)}<div class="muted" style="font-size:12px">Size: ${escapeHtml(it.product_size || '-') } • Qty: ${it.quantity}</div></div>`;
 
                         // If order delivered, show Buy Again and Rate buttons
                         if ((order.status || '').toLowerCase() === 'delivered') {
