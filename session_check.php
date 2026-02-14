@@ -17,16 +17,12 @@ try {
         exit;
     }
 
-    // Verify session fingerprint (prevent session hijacking)
+    // For mobile compatibility: Don't fail the entire session if fingerprint changes
+    // Just log suspicious activity but allow continuation
     if (!session_verify_fingerprint()) {
-        session_destroy();
-        log_suspicious_activity('Session fingerprint mismatch', 'Possible hijack attempt');
-        http_response_code(403);
-        echo json_encode([
-            "logged_in" => false,
-            "message" => "Session security check failed"
-        ]);
-        exit;
+        log_suspicious_activity('Session fingerprint mismatch - may be mobile/network change', 'User: ' . ($_SESSION['user_id'] ?? 'unknown'));
+        // Update fingerprint to allow for network changes
+        session_set_fingerprint();
     }
 
     // Update session touch time
