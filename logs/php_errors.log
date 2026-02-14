@@ -1,0 +1,1 @@
+[14-Feb-2026 05:49:59 Europe/Berlin] PHP Fatal error:  Cannot redeclare password_needs_rehash() in C:\xampp\htdocs\trendify\security_helpers.php on line 106
