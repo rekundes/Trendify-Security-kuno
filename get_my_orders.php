@@ -3,11 +3,16 @@ session_start();
 header('Content-Type: application/json');
 
 require 'config.php';
+require_once 'security_helpers.php';
 
 if (!isset($_SESSION['user_id'])) {
+    http_response_code(401);
     echo json_encode(['success' => false, 'message' => 'Not authenticated']);
     exit;
 }
+
+// Keep session alive
+session_touch(1800);
 
 $user_id = (int) $_SESSION['user_id'];
 
@@ -39,6 +44,8 @@ try {
 
     echo json_encode(['success' => true, 'orders' => $orders]);
 } catch (Exception $e) {
+    log_suspicious_activity("Orders fetch error", "User ID: $user_id, Error: " . $e->getMessage());
+    http_response_code(500);
     echo json_encode(['success' => false, 'message' => 'Server error']);
 }
 

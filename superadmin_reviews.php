@@ -9,16 +9,21 @@ if (!isset($_SESSION['user_id']) || ($_SESSION['role'] ?? '') !== 'superadmin') 
 
 $admin_name = ($_SESSION['first_name'] ?? 'Superadmin') . ' ' . ($_SESSION['last_name'] ?? '');
 
-// Fetch reviews
+// Fetch reviews using prepared statement
 $reviews = [];
 $sql = "SELECT pr.*, u.email, u.first_name, u.last_name
         FROM product_reviews pr
         LEFT JOIN users u ON pr.user_id = u.user_id
         ORDER BY pr.created_at DESC
-        LIMIT 500";
-$res = $conn->query($sql);
-if ($res && $res->num_rows > 0) {
-    while ($r = $res->fetch_assoc()) $reviews[] = $r;
+        LIMIT 200";
+$stmt = $conn->prepare($sql);
+if ($stmt) {
+    $stmt->execute();
+    $res = $stmt->get_result();
+    if ($res && $res->num_rows > 0) {
+        while ($r = $res->fetch_assoc()) $reviews[] = $r;
+    }
+    $stmt->close();
 }
 ?>
 <!doctype html>

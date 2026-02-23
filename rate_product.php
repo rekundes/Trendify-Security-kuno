@@ -18,15 +18,15 @@ $image_path = null;
 if (stripos($_SERVER['CONTENT_TYPE'] ?? '', 'application/json') !== false) {
     $raw = file_get_contents('php://input');
     $data = json_decode($raw, true);
-    $product_name = isset($data['product_name']) ? $conn->real_escape_string($data['product_name']) : '';
+    $product_name = isset($data['product_name']) ? trim($data['product_name']) : '';
     $rating = isset($data['rating']) ? intval($data['rating']) : 0;
-    $comment = isset($data['comment']) ? $conn->real_escape_string($data['comment']) : '';
+    $comment = isset($data['comment']) ? trim($data['comment']) : '';
     if (isset($data['image_rating'])) $image_rating = intval($data['image_rating']);
 } else {
     // multipart/form-data
-    $product_name = isset($_POST['product_name']) ? $conn->real_escape_string($_POST['product_name']) : '';
+    $product_name = isset($_POST['product_name']) ? trim($_POST['product_name']) : '';
     $rating = isset($_POST['rating']) ? intval($_POST['rating']) : 0;
-    $comment = isset($_POST['comment']) ? $conn->real_escape_string($_POST['comment']) : '';
+    $comment = isset($_POST['comment']) ? trim($_POST['comment']) : '';
     if (isset($_POST['image_rating'])) $image_rating = intval($_POST['image_rating']);
 
     if (!empty($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {

@@ -37,10 +37,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['not_delivered_id'])) 
     exit;
 }
 
-// Get statistics from database
-$total_sales = $conn->query("SELECT SUM(total_amount) as total FROM orders WHERE status = 'Delivered'")->fetch_assoc()['total'] ?? 0;
-$total_orders = $conn->query("SELECT COUNT(*) as count FROM orders")->fetch_assoc()['count'] ?? 0;
-$total_customers = $conn->query("SELECT COUNT(*) as count FROM users WHERE is_admin = 0")->fetch_assoc()['count'] ?? 0;
+// Get statistics from database using prepared statements
+$total_sales = (function() { global $conn; $stmt = $conn->prepare("SELECT SUM(total_amount) as total FROM orders WHERE status = 'Delivered'"); $stmt->execute(); $res = $stmt->get_result(); $row = $res->fetch_assoc(); $stmt->close(); return $row['total'] ?? 0; })();
+$total_orders = (function() { global $conn; $stmt = $conn->prepare("SELECT COUNT(*) as count FROM orders"); $stmt->execute(); $res = $stmt->get_result(); $row = $res->fetch_assoc(); $stmt->close(); return $row['count'] ?? 0; })();
+$total_customers = (function() { global $conn; $stmt = $conn->prepare("SELECT COUNT(*) as count FROM users WHERE is_admin = 0"); $stmt->execute(); $res = $stmt->get_result(); $row = $res->fetch_assoc(); $stmt->close(); return $row['count'] ?? 0; })();
 $total_products = 72;
 
 // Get recent orders

@@ -49,28 +49,70 @@ $page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
 $per_page = 20;
 $offset = ($page - 1) * $per_page;
 
-// Get total orders
-$total_result = $conn->query("SELECT COUNT(*) as count FROM orders" . $where_clause);
-$total = $total_result->fetch_assoc()['count'];
-$total_pages = ceil($total / $per_page);
-
-// Get orders
+// Get total orders and list using prepared statements
+$total = 0;
 $orders = [];
-$orders_sql = "SELECT o.*, 
-                COUNT(oi.item_id) as item_count,
-                SUM(oi.quantity) as total_qty
-               FROM orders o
-               LEFT JOIN order_items oi ON o.order_id = oi.order_id
-               $where_clause
-               GROUP BY o.order_id
-               ORDER BY o.order_date DESC
-               LIMIT $offset, $per_page";
-$result = $conn->query($orders_sql);
-if ($result && $result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
+if ($where_clause !== '') {
+  // status filter present
+  $count_stmt = $conn->prepare("SELECT COUNT(*) as count FROM orders WHERE status = ?");
+  $count_stmt->bind_param('s', $status_filter);
+  $count_stmt->execute();
+  $count_res = $count_stmt->get_result();
+  $total = $count_res->fetch_assoc()['count'];
+  $count_stmt->close();
+
+  $orders_sql = "SELECT o.*, 
+          COUNT(oi.item_id) as item_count,
+          SUM(oi.quantity) as total_qty
+           FROM orders o
+           LEFT JOIN order_items oi ON o.order_id = oi.order_id
+           WHERE o.status = ?
+           GROUP BY o.order_id
+           ORDER BY o.order_date DESC
+           LIMIT ?, ?";
+  $stmt = $conn->prepare($orders_sql);
+  if ($stmt) {
+    $stmt->bind_param('sii', $status_filter, $offset, $per_page);
+    $stmt->execute();
+    $res = $stmt->get_result();
+    if ($res && $res->num_rows > 0) {
+      while ($row = $res->fetch_assoc()) {
         $orders[] = $row;
+      }
     }
+    $stmt->close();
+  }
+} else {
+  // no filter
+  $count_stmt = $conn->prepare("SELECT COUNT(*) as count FROM orders");
+  $count_stmt->execute();
+  $count_res = $count_stmt->get_result();
+  $total = $count_res->fetch_assoc()['count'];
+  $count_stmt->close();
+
+  $orders_sql = "SELECT o.*, 
+          COUNT(oi.item_id) as item_count,
+          SUM(oi.quantity) as total_qty
+           FROM orders o
+           LEFT JOIN order_items oi ON o.order_id = oi.order_id
+           GROUP BY o.order_id
+           ORDER BY o.order_date DESC
+           LIMIT ?, ?";
+  $stmt = $conn->prepare($orders_sql);
+  if ($stmt) {
+    $stmt->bind_param('ii', $offset, $per_page);
+    $stmt->execute();
+    $res = $stmt->get_result();
+    if ($res && $res->num_rows > 0) {
+      while ($row = $res->fetch_assoc()) {
+        $orders[] = $row;
+      }
+    }
+    $stmt->close();
+  }
 }
+
+$total_pages = ceil($total / $per_page);
 ?>
 <!doctype html>
 <html lang="en">

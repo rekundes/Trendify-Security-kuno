@@ -9,14 +9,19 @@ if (!isset($_SESSION['user_id']) || !isset($_SESSION['is_admin']) || $_SESSION['
 
 $admin_name = ($_SESSION['first_name'] ?? 'Admin') . ' ' . ($_SESSION['last_name'] ?? '');
 
-// Get all users
+// Get all users using prepared statement
 $sql = "SELECT user_id, email, first_name, last_name, is_admin, created_at FROM users ORDER BY created_at DESC";
-$result = $conn->query($sql);
+$stmt = $conn->prepare($sql);
 $users = [];
-if ($result->num_rows > 0) {
-    while($row = $result->fetch_assoc()) {
-        $users[] = $row;
+if ($stmt) {
+    $stmt->execute();
+    $result = $stmt->get_result();
+    if ($result->num_rows > 0) {
+        while($row = $result->fetch_assoc()) {
+            $users[] = $row;
+        }
     }
+    $stmt->close();
 }
 ?>
 <!doctype html>

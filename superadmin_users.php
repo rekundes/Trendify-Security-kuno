@@ -11,33 +11,52 @@ $admin_name = ($_SESSION['first_name'] ?? 'Superadmin') . ' ' . ($_SESSION['last
 
 // Get filter
 $role_filter = isset($_GET['role']) ? $_GET['role'] : '';
-$where_clause = '';
-if ($role_filter && in_array($role_filter, ['customer', 'admin', 'superadmin'])) {
-    $where_clause = " WHERE role = '" . $conn->real_escape_string($role_filter) . "'";
-}
+$filter_applied = $role_filter && in_array($role_filter, ['customer', 'admin', 'superadmin']);
 
 // Pagination
 $page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
 $per_page = 20;
 $offset = ($page - 1) * $per_page;
 
-// Get total users
-$total_result = $conn->query("SELECT COUNT(*) as count FROM users" . $where_clause);
-$total = $total_result->fetch_assoc()['count'];
+// Get total users with prepared statement
+$total = 0;
+if ($filter_applied) {
+    $count_stmt = $conn->prepare("SELECT COUNT(*) as count FROM users WHERE role = ?");
+    $count_stmt->bind_param('s', $role_filter);
+    $count_stmt->execute();
+    $count_res = $count_stmt->get_result();
+    $total = $count_res->fetch_assoc()['count'];
+    $count_stmt->close();
+} else {
+    $count_stmt = $conn->prepare("SELECT COUNT(*) as count FROM users");
+    $count_stmt->execute();
+    $count_res = $count_stmt->get_result();
+    $total = $count_res->fetch_assoc()['count'];
+    $count_stmt->close();
+}
+
 $total_pages = ceil($total / $per_page);
 
-// Get users
+// Get users with prepared statement
 $users = [];
-$users_sql = "SELECT user_id, email, first_name, last_name, role, created_at FROM users 
-              $where_clause
-              ORDER BY created_at DESC
-              LIMIT $offset, $per_page";
-$result = $conn->query($users_sql);
+if ($filter_applied) {
+    $users_stmt = $conn->prepare("SELECT user_id, email, first_name, last_name, role, created_at FROM users WHERE role = ? ORDER BY created_at DESC LIMIT ?, ?");
+    $users_stmt->bind_param('sii', $role_filter, $offset, $per_page);
+    $users_stmt->execute();
+    $result = $users_stmt->get_result();
+} else {
+    $users_stmt = $conn->prepare("SELECT user_id, email, first_name, last_name, role, created_at FROM users ORDER BY created_at DESC LIMIT ?, ?");
+    $users_stmt->bind_param('ii', $offset, $per_page);
+    $users_stmt->execute();
+    $result = $users_stmt->get_result();
+}
+
 if ($result && $result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         $users[] = $row;
     }
 }
+$users_stmt->close();
 ?>
 <!doctype html>
 <html lang="en">

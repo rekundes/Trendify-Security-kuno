@@ -11,12 +11,12 @@ $admin_name = ($_SESSION['first_name'] ?? 'Superadmin') . ' ' . ($_SESSION['last
 
 // Get system stats
 $db_info = [
-    'users' => $conn->query("SELECT COUNT(*) as count FROM users")->fetch_assoc()['count'],
-    'customers' => $conn->query("SELECT COUNT(*) as count FROM users WHERE role = 'customer'")->fetch_assoc()['count'],
-    'admins' => $conn->query("SELECT COUNT(*) as count FROM users WHERE role IN ('admin', 'superadmin')")->fetch_assoc()['count'],
-    'orders' => $conn->query("SELECT COUNT(*) as count FROM orders")->fetch_assoc()['count'],
-    'products' => $conn->query("SELECT COUNT(*) as count FROM products")->fetch_assoc()['count'],
-    'order_items' => $conn->query("SELECT COUNT(*) as count FROM order_items")->fetch_assoc()['count'],
+    'users' => (function() { global $conn; $r = $conn->prepare("SELECT COUNT(*) as count FROM users"); $r->execute(); $res = $r->get_result(); $row = $res->fetch_assoc(); $r->close(); return $row['count']; })(),
+    'customers' => (function() { global $conn; $r = $conn->prepare("SELECT COUNT(*) as count FROM users WHERE role = 'customer'"); $r->execute(); $res = $r->get_result(); $row = $res->fetch_assoc(); $r->close(); return $row['count']; })(),
+    'admins' => (function() { global $conn; $r = $conn->prepare("SELECT COUNT(*) as count FROM users WHERE role IN ('admin', 'superadmin')"); $r->execute(); $res = $r->get_result(); $row = $res->fetch_assoc(); $r->close(); return $row['count']; })(),
+    'orders' => (function() { global $conn; $r = $conn->prepare("SELECT COUNT(*) as count FROM orders"); $r->execute(); $res = $r->get_result(); $row = $res->fetch_assoc(); $r->close(); return $row['count']; })(),
+    'products' => (function() { global $conn; $r = $conn->prepare("SELECT COUNT(*) as count FROM products"); $r->execute(); $res = $r->get_result(); $row = $res->fetch_assoc(); $r->close(); return $row['count']; })(),
+    'order_items' => (function() { global $conn; $r = $conn->prepare("SELECT COUNT(*) as count FROM order_items"); $r->execute(); $res = $r->get_result(); $row = $res->fetch_assoc(); $r->close(); return $row['count']; })(),
 ];
 ?>
 <!doctype html>
@@ -151,8 +151,15 @@ $db_info = [
           <tbody>
             <?php
             $tables = ['users', 'products', 'orders', 'order_items', 'login_attempts'];
+            $table_counts = [
+                'users' => (function() { global $conn; $stmt = $conn->prepare("SELECT COUNT(*) as cnt FROM users"); $stmt->execute(); $res = $stmt->get_result(); $row = $res->fetch_assoc(); $stmt->close(); return $row['cnt']; })(),
+                'products' => (function() { global $conn; $stmt = $conn->prepare("SELECT COUNT(*) as cnt FROM products"); $stmt->execute(); $res = $stmt->get_result(); $row = $res->fetch_assoc(); $stmt->close(); return $row['cnt']; })(),
+                'orders' => (function() { global $conn; $stmt = $conn->prepare("SELECT COUNT(*) as cnt FROM orders"); $stmt->execute(); $res = $stmt->get_result(); $row = $res->fetch_assoc(); $stmt->close(); return $row['cnt']; })(),
+                'order_items' => (function() { global $conn; $stmt = $conn->prepare("SELECT COUNT(*) as cnt FROM order_items"); $stmt->execute(); $res = $stmt->get_result(); $row = $res->fetch_assoc(); $stmt->close(); return $row['cnt']; })(),
+                'login_attempts' => (function() { global $conn; $stmt = $conn->prepare("SELECT COUNT(*) as cnt FROM login_attempts"); $stmt->execute(); $res = $stmt->get_result(); $row = $res->fetch_assoc(); $stmt->close(); return $row['cnt']; })(),
+            ];
             foreach ($tables as $table) {
-                $count = $conn->query("SELECT COUNT(*) as count FROM $table")->fetch_assoc()['count'];
+                $count = $table_counts[$table];
                 echo "<tr><td><code>$table</code></td><td>$count</td></tr>";
             }
             ?>
