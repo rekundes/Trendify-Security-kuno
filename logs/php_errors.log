@@ -1,1 +1,2 @@
 [14-Feb-2026 05:49:59 Europe/Berlin] PHP Fatal error:  Cannot redeclare password_needs_rehash() in C:\xampp\htdocs\trendify\security_helpers.php on line 106
+[14-Feb-2026 10:02:48 Europe/Berlin] PHP Notice:  session_start(): Ignoring session_start() because a session is already active in C:\xampp\htdocs\trendify\get_user_reviews.php on line 3

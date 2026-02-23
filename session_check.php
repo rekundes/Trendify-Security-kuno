@@ -6,6 +6,11 @@ header('Cache-Control: no-cache, no-store, must-revalidate');
 require_once 'config.php';
 require_once 'security_helpers.php';
 
+// Start session to read session data
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 try {
     // Verify session is active and not expired
     if (!session_validate_user()) {
@@ -17,12 +22,12 @@ try {
         exit;
     }
 
-    // For mobile compatibility: Don't fail the entire session if fingerprint changes
-    // Just log suspicious activity but allow continuation
+    // Verify session fingerprint (prevent session hijacking)
+    // On mobile, User-Agent and IP can change between network changes (WiFi↔4G)
+    // We log suspicious activity but allow continuation and update fingerprint
     if (!session_verify_fingerprint()) {
-        log_suspicious_activity('Session fingerprint mismatch - may be mobile/network change', 'User: ' . ($_SESSION['user_id'] ?? 'unknown'));
-        // Update fingerprint to allow for network changes
-        session_set_fingerprint();
+        log_suspicious_activity('Session fingerprint mismatch', 'User-Agent: ' . $_SERVER['HTTP_USER_AGENT'] . ', IP: ' . $_SERVER['REMOTE_ADDR']);
+        session_set_fingerprint();  // Update fingerprint for new environment
     }
 
     // Update session touch time

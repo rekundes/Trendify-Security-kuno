@@ -91,6 +91,10 @@ try {
         $_SESSION['role'] = 'customer';
         $_SESSION['login_time'] = time();
         
+        // Initialize session timeout tracking (REQUIRED for session_validate_user to work)
+        $_SESSION['last_active'] = time();
+        $_SESSION['session_timeout'] = 1800;  // 30 minutes
+        
         // Session fingerprinting
         session_set_fingerprint();
         

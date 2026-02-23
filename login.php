@@ -4,6 +4,11 @@ header('Access-Control-Allow-Credentials: true');
 require_once 'config.php';
 require_once 'security_helpers.php';
 
+// Start session before using it
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 try {
     $input = json_decode(file_get_contents('php://input'), true);
     $email = isset($input['email']) ? trim($input['email']) : '';
@@ -22,12 +27,12 @@ try {
         exit;
     }
 
-    // Rate limiting - max 5 attempts per IP per 5 minutes
+    // Rate limiting - max 5 attempts per IP per 10 seconds
     $rate_key = 'login_' . $_SERVER['REMOTE_ADDR'];
-    if (!rate_limit_check($rate_key, 5, 300)) {
+    if (!rate_limit_check($rate_key, 5, 10)) {
         log_suspicious_activity('Login rate limit exceeded', 'IP: ' . $_SERVER['REMOTE_ADDR']);
         http_response_code(429);
-        echo json_encode(['success' => false, 'message' => 'Too many login attempts. Try again in 5 minutes.']);
+        echo json_encode(['success' => false, 'message' => 'Too many login attempts. Try again in 10 seconds.']);
         exit;
     }
 
@@ -120,6 +125,10 @@ try {
         $_SESSION['is_admin'] = $user['is_admin'];
         $_SESSION['role'] = $user['role'];
         $_SESSION['login_time'] = time();
+        
+        // Initialize session timeout tracking (REQUIRED for session_validate_user to work)
+        $_SESSION['last_active'] = time();
+        $_SESSION['session_timeout'] = 1800;  // 30 minutes
         
         // Session fingerprinting for additional security
         session_set_fingerprint();
